@@ -1,3 +1,7 @@
+//
+//  VideoOutput.swift
+//  DocumentVerification
+//
 //  Created by Jura Skrlec on 06.12.2024..
 //  Copyright (c) Microblink. All rights reserved.
 //  This code is provided for use as-is and may not be copied, modified, or redistributed.
@@ -48,6 +52,9 @@ final class VideoCapture: OutputService {
         // Set the delegate to receive frames
         let queue = DispatchQueue(label: "com.camera.videoqueue")
         videoOutput.setSampleBufferDelegate(videoCaptureDelegate, queue: queue)
+        if #available(iOS 26.0, *) {
+            videoOutput.isDeferredStartEnabled = true
+        }
     }
     
     // MARK: - Update the photo output configuration
@@ -69,6 +76,10 @@ final class VideoCapture: OutputService {
     private func updateCapabilities(for device: AVCaptureDevice) {
         capabilities = CaptureCapabilities(isTorchSupported: device.isTorchAvailable)
     }
+    
+    func end() {
+        self.videoCaptureDelegate.end()
+    }
 }
 
 private final class VideoCaptureDelegate: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
@@ -76,6 +87,10 @@ private final class VideoCaptureDelegate: NSObject, AVCaptureVideoDataOutputSamp
     private var continuation: AsyncStream<SampleBuffer>.Continuation?
     
     deinit {
+        self.continuation?.finish()
+    }
+    
+    func end() {
         self.continuation?.finish()
     }
     

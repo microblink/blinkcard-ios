@@ -24,10 +24,36 @@ public struct ScanningUXSettings {
     /// When disabled, no haptic feedback is produced.
     let allowHapticFeedback: Bool
     
-    public init(showIntroductionAlert: Bool = true, showHelpButton: Bool = true, preferredCameraPosition: Camera.CameraPosition = .back, allowHapticFeedback: Bool = true) {
+    /// Determines whether sound is played for scanning-success events.
+    ///
+    /// When enabled, scan sounds are generated during scanning-success events,
+    /// such as side scanned.
+    /// When disabled, no sound is produced.
+    let allowScanSound: Bool
+    
+    /// Duration in seconds before the help tooltip is shown.
+    /// If less than or equal to zero, tooltip won't be auto shown.
+    /// Defaults to 10.0
+    public var helpTooltipShowDelay: TimeInterval
+    
+    /// Duration in seconds before the help tooltip is hidden.
+    /// If less than or equal to zero, tooltip won't be auto hidden.
+    /// Defaults to 5.0
+    public var helpTooltipHideDelay: TimeInterval
+    
+    public init(showIntroductionAlert: Bool = true,
+                showHelpButton: Bool = true,
+                preferredCameraPosition: Camera.CameraPosition = .back,
+                allowHapticFeedback: Bool = true,
+                allowScanSound: Bool = true,
+                helpTooltipShowDelay: TimeInterval = 10.0,
+                helpTooltipHideDelay: TimeInterval = 5.0) {
         self.showIntroductionAlert = showIntroductionAlert
         self.showHelpButton = showHelpButton
         self.preferredCameraPosition = preferredCameraPosition
         self.allowHapticFeedback = allowHapticFeedback
+        self.allowScanSound = allowScanSound
+        self.helpTooltipShowDelay = helpTooltipShowDelay
+        self.helpTooltipHideDelay = helpTooltipHideDelay
     }
 }

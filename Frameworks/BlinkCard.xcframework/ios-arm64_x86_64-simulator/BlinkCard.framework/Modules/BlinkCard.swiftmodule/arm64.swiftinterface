@@ -1,0 +1,1178 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -enforce-exclusivity=checked -Osize -enable-experimental-feature AccessLevelOnImport -enable-bare-slash-regex -module-name BlinkCard
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=swift-6 -interface-compiler-version 6.3.3
+import AVFoundation
+@_exported import BlinkCard
+import CoreData
+import CoreMedia
+import CryptoKit
+import Foundation
+import MetricKit
+import Network
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct BlinkCardSdkSettings : Swift.Sendable, BlinkCard.SdkSettings {
+  public var licenseKey: Swift.String
+  public var licensee: Swift.String?
+  public var helloLogEnabled: Swift.Bool
+  public var resourcesConfiguration: BlinkCard.ResourcesConfig
+  public var microblinkProxyURL: Swift.String?
+  public init(licenseKey: Swift.String, licensee: Swift.String? = nil, helloLogEnabled: Swift.Bool = false, resourcesConfiguration: BlinkCard.ResourcesConfig = .init(), microblinkProxyURL: Swift.String? = nil)
+}
+@_hasMissingDesignatedInitializers final public class BlinkCardSdk : Swift.Sendable {
+  @BlinkCard.ProcessingActor final public func createScanningSession(sessionSettings: BlinkCard.BlinkCardSessionSettings = BlinkCardSessionSettings()) async throws -> BlinkCard.BlinkCardSession
+  @BlinkCard.ProcessingActor public static func createBlinkCardSdk(withSettings settings: BlinkCard.BlinkCardSdkSettings) async throws -> BlinkCard.BlinkCardSdk
+  public static func refreshLicenseLease() async throws
+  @BlinkCard.ProcessingActor public static func terminateBlinkCardSdk()
+  @BlinkCard.ProcessingActor public static func terminateBlinkCardSdkAndDeleteCachedResources()
+  @objc deinit
+}
+public enum SessionError : Swift.Error, Swift.Sendable {
+  case processCallAfterDocumentScanned
+  case resetCallAfterResultRetrieved
+  public static func == (a: BlinkCard.SessionError, b: BlinkCard.SessionError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct FrameProcessResult : Swift.Sendable {
+  public let processResult: BlinkCard.BlinkCardSDK.ProcessResult?
+  public let sessionError: BlinkCard.SessionError?
+}
+@_hasMissingDesignatedInitializers final public class BlinkCardSession : Swift.Sendable {
+  final public let settings: BlinkCard.BlinkCardSessionSettings
+  @objc deinit
+  final public func cancelActiveProcessing()
+  final public func resumeActiveProcessing()
+  @BlinkCard.ProcessingActor final public func process(inputImage: BlinkCard.InputImage) async throws -> BlinkCard.FrameProcessResult
+  @BlinkCard.ProcessingActor final public func reset() throws
+  @BlinkCard.ProcessingActor final public func getResult() -> BlinkCard.BlinkCardScanningResult
+  @BlinkCard.ProcessingActor final public func getSessionId() -> Swift.String
+  @BlinkCard.ProcessingActor final public func getSessionNumber() -> Swift.Int
+}
+public enum CheckResult : Swift.String, Swift.Sendable {
+  case notAvailable
+  case pass
+  case fail
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct DateResult : Swift.Sendable, Swift.Hashable {
+  public let day: Swift.Int?
+  public let month: Swift.Int?
+  public let year: Swift.Int?
+  public let date: Foundation.Date?
+  public let filledByDomainKnowledge: Swift.Bool
+  public let successfullyParsed: Swift.Bool
+  public let originalString: Swift.String
+  public func toString() -> Swift.String
+  public static func == (a: BlinkCard.DateResult, b: BlinkCard.DateResult) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CardAccountResult : Swift.Sendable, Swift.Hashable {
+  public let cardNumber: Swift.String
+  public let cardNumberValid: Swift.Bool
+  public let cardNumberPrefix: Swift.String?
+  public let cvv: Swift.String?
+  public let expiryDate: BlinkCard.DateResult?
+  public let fundingType: Swift.String?
+  public let cardCategory: Swift.String?
+  public let issuerName: Swift.String?
+  public let issuerCountryCode: Swift.String?
+  public let issuerCountry: Swift.String?
+  public let binCheckResult: BlinkCard.CheckResult
+  public static func == (a: BlinkCard.CardAccountResult, b: BlinkCard.CardAccountResult) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CroppedImageResult : Swift.Sendable {
+  public var rawData: Foundation.Data
+  public var uiImage: UIKit.UIImage? {
+    get
+  }
+}
+public struct CardLivenessCheckResult : Swift.Sendable {
+  public let screenCheckResult: BlinkCard.CheckResult
+  public let photocopyCheckResult: BlinkCard.CheckResult
+  public let cardHeldInHandCheckResult: BlinkCard.CheckResult
+}
+public struct SingleSideScanningResult : Swift.Sendable {
+  public let cardImage: BlinkCard.CroppedImageResult?
+  public let cardLivenessCheckResult: BlinkCard.CardLivenessCheckResult
+}
+public struct BlinkCardScanningResult : Swift.Sendable {
+  public let issuingNetwork: Swift.String
+  public let cardAccounts: [BlinkCard.CardAccountResult]
+  public let iban: Swift.String?
+  public let cardholderName: Swift.String?
+  public let overallCardLivenessResult: BlinkCard.CheckResult
+  public let firstSideResult: BlinkCard.SingleSideScanningResult?
+  public let secondSideResult: BlinkCard.SingleSideScanningResult?
+  public let cardNumber: Swift.String?
+  public let cardNumberValid: Swift.Bool?
+  public let cardNumberPrefix: Swift.String?
+  public let cvv: Swift.String?
+  public let expiryDate: BlinkCard.DateResult?
+  public let fundingType: Swift.String?
+  public let cardCategory: Swift.String?
+  public let issuerName: Swift.String?
+  public let issuerCountryCode: Swift.String?
+  public let issuerCountry: Swift.String?
+  public let binCheckResult: BlinkCard.CheckResult?
+}
+public enum InputImageSource : Swift.Sendable {
+  case video
+  case photo
+  public static func == (a: BlinkCard.InputImageSource, b: BlinkCard.InputImageSource) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum StrictnessLevel : Swift.Sendable, Swift.CaseIterable, Swift.Codable {
+  case disabled
+  case level1
+  case level2
+  case level3
+  case level4
+  case level5
+  case level6
+  case level7
+  case level8
+  case level9
+  case level10
+  public static func == (a: BlinkCard.StrictnessLevel, b: BlinkCard.StrictnessLevel) -> Swift.Bool
+  public typealias AllCases = [BlinkCard.StrictnessLevel]
+  nonisolated public static var allCases: [BlinkCard.StrictnessLevel] {
+    get
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct LivenessSettings : Swift.Sendable {
+  public let handToCardSizeRatio: Swift.Float
+  public let handCardOverlapThreshold: Swift.Float
+  public let enableCardHeldInHandCheck: Swift.Bool
+  public let screenCheckStrictnessLevel: BlinkCard.StrictnessLevel
+  public let photocopyCheckStrictnessLevel: BlinkCard.StrictnessLevel
+  public init(handToCardSizeRatio: Swift.Float = 0.15, handCardOverlapThreshold: Swift.Float = 0.05, enableCardHeldInHandCheck: Swift.Bool = true, screenCheckStrictnessLevel: BlinkCard.StrictnessLevel = .level5, photocopyCheckStrictnessLevel: BlinkCard.StrictnessLevel = .level5)
+}
+public struct ExtractionSettings : Swift.Sendable {
+  public let extractIban: Swift.Bool
+  public let extractExpiryDate: Swift.Bool
+  public let extractCardholderName: Swift.Bool
+  public let extractCvv: Swift.Bool
+  public let extractInvalidCardNumber: Swift.Bool
+  public init(extractIban: Swift.Bool = true, extractExpiryDate: Swift.Bool = true, extractCardholderName: Swift.Bool = true, extractCvv: Swift.Bool = true, extractInvalidCardNumber: Swift.Bool = false)
+}
+public typealias DPI = Swift.UInt16
+public struct CroppedImageSettings : Swift.Sendable {
+  public var dotsPerInch: BlinkCard.DPI
+  public var extensionFactor: Swift.Float
+  public var returnCardImage: Swift.Bool
+  public init(dotsPerInch: BlinkCard.DPI = 250, extensionFactor: Swift.Float = 0, returnCardImage: Swift.Bool = false)
+}
+public struct CardNumberRedactionSettings : Swift.Sendable {
+  public var mode: BlinkCard.RedactionMode
+  public var prefixDigitsVisible: Swift.UInt8
+  public var suffixDigitsVisible: Swift.UInt8
+  public init(mode: BlinkCard.RedactionMode = .none, prefixDigitsVisible: Swift.UInt8 = 0, suffixDigitsVisible: Swift.UInt8 = 0)
+}
+public enum RedactionMode : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Identifiable, Swift.Sendable {
+  case none
+  case imageOnly
+  case resultFieldsOnly
+  case fullResult
+  public var id: Swift.String {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [BlinkCard.RedactionMode]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [BlinkCard.RedactionMode] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct RedactionSettings : Swift.Sendable {
+  public var cardNumberRedactionSettings: BlinkCard.CardNumberRedactionSettings
+  public var cvvRedactionMode: BlinkCard.RedactionMode
+  public var ibanRedactionMode: BlinkCard.RedactionMode
+  public var cardholderNameRedactionMode: BlinkCard.RedactionMode
+  public init(cardNumberRedactionSettings: BlinkCard.CardNumberRedactionSettings = CardNumberRedactionSettings(), cvvRedactionMode: BlinkCard.RedactionMode = .none, ibanRedactionMode: BlinkCard.RedactionMode = .none, cardholderNameRedactionMode: BlinkCard.RedactionMode = .none)
+}
+public enum SensitivityLevel : Swift.Sendable, Swift.CaseIterable {
+  case off
+  case low
+  case mid
+  case high
+  public static func == (a: BlinkCard.SensitivityLevel, b: BlinkCard.SensitivityLevel) -> Swift.Bool
+  public typealias AllCases = [BlinkCard.SensitivityLevel]
+  nonisolated public static var allCases: [BlinkCard.SensitivityLevel] {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ScanningSettings : Swift.Sendable {
+  public var skipImagesWithBlur: Swift.Bool
+  public var tiltSensitivityLevel: BlinkCard.SensitivityLevel
+  public var inputImageMargin: Swift.Float
+  public var livenessSettings: BlinkCard.LivenessSettings
+  public var extractionSettings: BlinkCard.ExtractionSettings
+  public var croppedImageSettings: BlinkCard.CroppedImageSettings
+  public var redactionSettings: BlinkCard.RedactionSettings
+  public init(skipImagesWithBlur: Swift.Bool = true, tiltSensitivityLevel: BlinkCard.SensitivityLevel = .mid, inputImageMargin: Swift.Float = 0.02, livenessSettings: BlinkCard.LivenessSettings = LivenessSettings(), extractionSettings: BlinkCard.ExtractionSettings = ExtractionSettings(), croppedImageSettings: BlinkCard.CroppedImageSettings = CroppedImageSettings(), redactionSettings: BlinkCard.RedactionSettings = RedactionSettings())
+}
+public struct BlinkCardSessionSettings : Swift.Sendable {
+  public var inputImageSource: BlinkCard.InputImageSource
+  public var scanningSettings: BlinkCard.ScanningSettings
+  public var stepTimeoutDuration: Foundation.TimeInterval
+  public var inactivityTimeoutDuration: Foundation.TimeInterval
+  public init(inputImageSource: BlinkCard.InputImageSource = .video, scanningSettings: BlinkCard.ScanningSettings = ScanningSettings(), stepTimeoutDuration: Foundation.TimeInterval = 60.0, inactivityTimeoutDuration: Foundation.TimeInterval = 10.0)
+}
+public struct BlinkCardSDK {
+  public struct ProcessResult : Swift.Sendable {
+    public let inputImageAnalysisResult: BlinkCard.BlinkCardSDK.InputImageAnalysisResult
+    public let resultCompleteness: BlinkCard.BlinkCardSDK.ResultCompleteness
+  }
+  public enum ScanningStatus : Swift.Sendable {
+    case scanningSideInProgress
+    case sideScanned
+    case cardScanned
+    case cancelled
+    public static func == (a: BlinkCard.BlinkCardSDK.ScanningStatus, b: BlinkCard.BlinkCardSDK.ScanningStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum FieldExtractionStatus : Swift.Sendable {
+    case notAvailable
+    case notRequested
+    case notPresent
+    case notExtracted
+    case extracted
+    public static func == (a: BlinkCard.BlinkCardSDK.FieldExtractionStatus, b: BlinkCard.BlinkCardSDK.FieldExtractionStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum ImageExtractionStatus : Swift.Sendable {
+    case notAvailable
+    case notRequested
+    case notExtracted
+    case extracted
+    public static func == (a: BlinkCard.BlinkCardSDK.ImageExtractionStatus, b: BlinkCard.BlinkCardSDK.ImageExtractionStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum ProcessingStatus : Swift.Sendable {
+    case success
+    case detectionFailed
+    case imagePreprocessingFailed
+    case stabilityTestFailed
+    case scanningWrongSide
+    case fieldIdentificationFailed
+    case imageReturnFailed
+    case awaitingOtherSide
+    case notScanned
+    case frameNotFocused
+    public static func == (a: BlinkCard.BlinkCardSDK.ProcessingStatus, b: BlinkCard.BlinkCardSDK.ProcessingStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public struct InputImageAnalysisResult : Swift.Sendable {
+    public let processingStatus: BlinkCard.BlinkCardSDK.ProcessingStatus
+    public let scanningSide: BlinkCard.ScanningSide
+    public let detectionStatus: BlinkCard.DetectionStatus
+    public let cardLocation: BlinkCard.Quadrilateral?
+    public let blurDetectionStatus: BlinkCard.ImageAnalysisDetectionStatus
+    public let cardRotation: BlinkCard.CardRotation
+  }
+  public struct ResultCompleteness : Swift.Sendable {
+    public let scanningStatus: BlinkCard.BlinkCardSDK.ScanningStatus
+    public let cardNumberExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let cardNumberPrefixExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let expiryDateExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let cardholderNameExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let cvvExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let ibanExtractionStatus: BlinkCard.BlinkCardSDK.FieldExtractionStatus
+    public let cardImageExtractionStatus: BlinkCard.BlinkCardSDK.ImageExtractionStatus
+  }
+}
+public enum CardRotation : Swift.Int, Swift.Decodable, Swift.Sendable {
+  case notAvailable
+  case zero
+  case clockwise90
+  case counterClockwise90
+  case upsideDown
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class CrashMonitor : ObjectiveC.NSObject, @unchecked Swift.Sendable {
+  public static let shared: BlinkCard.CrashMonitor
+  final public func startMonitoring(enableDebugLogging: Swift.Bool = false)
+  final public func stopMonitoring()
+  final public func sessionDidBegin(sessionNumber: Swift.Int)
+  final public func sessionDidEnd()
+  @objc deinit
+}
+extension BlinkCard.CrashMonitor : MetricKit.MXMetricManagerSubscriber {
+  @objc final public func didReceive(_ payloads: [MetricKit.MXDiagnosticPayload])
+  @objc final public func didReceive(_ payloads: [MetricKit.MXMetricPayload])
+}
+public struct InvalidLicenseKeyError : Swift.Error {
+  public let message: Swift.String
+}
+public struct MissingResources : Swift.Error {
+}
+public struct MissingBundle : Swift.Error {
+  public let message: Swift.String
+}
+public enum ResourcesError : Swift.Error, Foundation.LocalizedError {
+  case corruptedAssets(Swift.String)
+  case resourceDownload(Swift.String)
+  case invalidBundle(Swift.String)
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public struct ResourceLoadError : Swift.Sendable {
+  public let name: Swift.String
+  public let error: BlinkCard.ModelLoadError
+  public init(errors: [(first: Swift.String, second: BlinkCard.ModelLoadError)])
+}
+public enum ModelLoadError : Swift.Sendable, Swift.Error, Foundation.LocalizedError {
+  case missingFile
+  case invalidFile
+  case invalidLicense
+  public var errorDescription: Swift.String? {
+    get
+  }
+  public static func == (a: BlinkCard.ModelLoadError, b: BlinkCard.ModelLoadError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct MemoryReserveError : Swift.Sendable {
+  public let minRequiredMemory: Swift.Int
+  public init(minRequiredMemory: Swift.Int)
+}
+public struct SettingsValidationError : Swift.Sendable {
+  public let message: Swift.String
+  public init(message: Swift.String)
+}
+public enum SDKInitError : Swift.Error, Foundation.LocalizedError {
+  case resourceLoad(BlinkCard.ResourceLoadError)
+  case memoryReserve(BlinkCard.MemoryReserveError)
+  case licenseError
+  case settingsValidationError(BlinkCard.SettingsValidationError)
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public enum ImageOrientation : Swift.Sendable {
+  case up
+  case down
+  case left
+  case right
+  case upMirrored
+  case downMirrored
+  case leftMirrored
+  case rightMirrored
+  public static func == (a: BlinkCard.ImageOrientation, b: BlinkCard.ImageOrientation) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct RegionOfInterest {
+  public let x: Swift.Float
+  public let y: Swift.Float
+  public let width: Swift.Float
+  public let height: Swift.Float
+  public init(x: Swift.Float = 0, y: Swift.Float = 0, width: Swift.Float = 1, height: Swift.Float = 1)
+}
+public enum CameraFrameVideoOrientation : Swift.Sendable {
+  case portrait
+  case portraitUpsideDown
+  case landscapeRight
+  case landscapeLeft
+  public static func == (a: BlinkCard.CameraFrameVideoOrientation, b: BlinkCard.CameraFrameVideoOrientation) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CameraFrame : @unchecked Swift.Sendable {
+  public let buffer: CoreMedia.CMSampleBuffer
+  public let roi: BlinkCard.RegionOfInterest
+  public let orientation: BlinkCard.CameraFrameVideoOrientation
+  public init(buffer: CoreMedia.CMSampleBuffer, roi: BlinkCard.RegionOfInterest = RegionOfInterest(), orientation: BlinkCard.CameraFrameVideoOrientation = .portrait)
+  public var width: Swift.Int {
+    get
+  }
+  public var height: Swift.Int {
+    get
+  }
+}
+final public class InputImage : Swift.Sendable {
+  public init(uiImage: UIKit.UIImage, regionOfInterest: BlinkCard.RegionOfInterest = RegionOfInterest())
+  public init(cameraFrame: BlinkCard.CameraFrame)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class UXLicenseProviderBridge {
+  @_Concurrency.MainActor final public var showDemoOverlay: Swift.Bool
+  @_Concurrency.MainActor final public var showProductionOverlay: Swift.Bool
+  @_Concurrency.MainActor public static let shared: BlinkCard.UXLicenseProviderBridge
+  @objc deinit
+}
+public protocol OtaSdkSettings : Swift.Sendable {
+  var otaResourcesConfiguration: BlinkCard.OTAResourcesConfig { get set }
+}
+public struct OTAResourcesConfig : Swift.Sendable {
+  public init(checkForUpdates: Swift.Bool = true, strict: Swift.Bool = false, serviceUrl: Swift.String = "https://blinkid-ota.microblink.com", localFolder: Swift.String = "OTAMLModels", requestTimeout: BlinkCard.RequestTimeout = .default, bundleUrl: Foundation.URL? = nil)
+}
+@_hasMissingDesignatedInitializers public actor PingManager {
+  public static let shared: BlinkCard.PingManager
+  public func addPinglet<P>(pinglet: P, sessionNumber: Swift.Int) async where P : BlinkCard.Pinglet
+  @discardableResult
+  public func sendPinglets() async -> BlinkCard.PingStatus
+  @objc deinit
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @_semantics("defaultActor") nonisolated final public var unownedExecutor: _Concurrency.UnownedSerialExecutor {
+    get
+  }
+}
+public protocol Pinglet : Swift.Decodable, Swift.Encodable {
+  static var schemaName: Swift.String { get }
+  static var schemaVersion: Swift.String { get }
+}
+public enum PingStatus : Swift.Sendable {
+  case success
+  case failure(any Swift.Error)
+  case networkUnavailable
+  case pingNotEnabled
+}
+public enum DetectionStatus : Swift.String, Swift.Decodable, Swift.Sendable {
+  case failed
+  case success
+  case cameraTooFar
+  case cameraTooClose
+  case cameraAngleTooSteep
+  case documentTooCloseToCameraEdge
+  case documentPartiallyVisible
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum DocumentRotation : Swift.Int, Swift.Decodable, Swift.Sendable {
+  case notAvailable
+  case zero
+  case clockwise90
+  case counterClockwise90
+  case upsideDown
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ImageAnalysisDetectionStatus : Swift.Int, Swift.Decodable, Swift.Sendable {
+  case notAvailable
+  case notDetected
+  case detected
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct Point : Swift.Sendable {
+  public let x: Swift.Int32
+  public let y: Swift.Int32
+}
+public struct Quadrilateral : Swift.Sendable {
+  public let upperLeft: BlinkCard.Point
+  public let upperRight: BlinkCard.Point
+  public let lowerRight: BlinkCard.Point
+  public let lowerLeft: BlinkCard.Point
+}
+public enum ScanningSide : Swift.Int, Swift.Sendable, Swift.CaseIterable {
+  case first
+  case second
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [BlinkCard.ScanningSide]
+  public typealias RawValue = Swift.Int
+  nonisolated public static var allCases: [BlinkCard.ScanningSide] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @globalActor public actor ProcessingActor {
+  public static let shared: BlinkCard.ProcessingActor
+  public typealias ActorType = BlinkCard.ProcessingActor
+  @objc deinit
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @_semantics("defaultActor") nonisolated final public var unownedExecutor: _Concurrency.UnownedSerialExecutor {
+    get
+  }
+}
+public protocol SdkSettings : Swift.Sendable {
+  var licenseKey: Swift.String { get set }
+  var licensee: Swift.String? { get set }
+  var helloLogEnabled: Swift.Bool { get set }
+  var resourcesConfiguration: BlinkCard.ResourcesConfig { get set }
+}
+public struct ResourcesConfig : Swift.Sendable {
+  public init(download: Swift.Bool = true, serviceUrl: Swift.String = "https://models.cdn.microblink.com/resources", localFolder: Swift.String = "MLModels", requestTimeout: BlinkCard.RequestTimeout = .default, bundleUrl: Foundation.URL? = nil)
+}
+public struct RequestTimeout : Swift.Sendable {
+  public init(connectionTimeout: Foundation.TimeInterval = 30, readTimeout: Foundation.TimeInterval = 30, writeTimeout: Foundation.TimeInterval = 30)
+  public static let `default`: BlinkCard.RequestTimeout
+}
+public enum ResourceDownloaderError : Foundation.LocalizedError {
+  case invalidURL(Swift.String)
+  case downloadFailed(Swift.Int)
+  case fileNotFound(Foundation.URL)
+  case hashMismatch(Swift.String)
+  case fileAccessError(any Swift.Error)
+  case cacheDirNotFound
+  case fileCreationError(any Swift.Error)
+  case noInternetConnection
+  case invalidResponse
+  case resourceUnavailable
+  case timedOut
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public struct UxEventPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let eventType: BlinkCard.UxEventPinglet.EventType
+  public let errorMessageType: BlinkCard.UxEventPinglet.ErrorMessageType?
+  public let alertType: BlinkCard.UxEventPinglet.AlertType?
+  public let helpCloseType: BlinkCard.UxEventPinglet.HelpCloseType?
+  public init(eventType: BlinkCard.UxEventPinglet.EventType, errorMessageType: BlinkCard.UxEventPinglet.ErrorMessageType? = nil, alertType: BlinkCard.UxEventPinglet.AlertType? = nil, helpCloseType: BlinkCard.UxEventPinglet.HelpCloseType? = nil)
+  public enum EventType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case camerastarted
+    case cameraclosed
+    case onboardinginfodisplayed
+    case closebuttonclicked
+    case helptooltipdisplayed
+    case helpopened
+    case helpclosed
+    case alertdisplayed
+    case errormessage
+    case steptimeout
+    case appmovedtobackground
+    case inactivitytimeout
+    case unsupportedbarcodetimeout
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.UxEventPinglet.EventType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.UxEventPinglet.EventType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ErrorMessageType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case movecloser
+    case movefarther
+    case keepvisible
+    case flipside
+    case aligndocument
+    case movefromedge
+    case increaselighting
+    case decreaselighting
+    case eliminateblur
+    case eliminateglare
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.UxEventPinglet.ErrorMessageType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.UxEventPinglet.ErrorMessageType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum AlertType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case invalidlicensekey
+    case networkerror
+    case documentclassnotallowed
+    case steptimeout
+    case documentnotsupported
+    case inactivitytimeout
+    case unsupportedbarcodetimeout
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.UxEventPinglet.AlertType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.UxEventPinglet.AlertType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum HelpCloseType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case contentskipped
+    case contentfullyviewed
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.UxEventPinglet.HelpCloseType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.UxEventPinglet.HelpCloseType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct WrapperProductInfoPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let wrapperProduct: BlinkCard.WrapperProductInfoPinglet.WrapperProduct
+  public let correlationId: Swift.String?
+  public init(wrapperProduct: BlinkCard.WrapperProductInfoPinglet.WrapperProduct, correlationId: Swift.String? = nil)
+  public enum WrapperProduct : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case crossplatformflutter
+    case crossplatformreactnative
+    case identityverification
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.WrapperProductInfoPinglet.WrapperProduct]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.WrapperProductInfoPinglet.WrapperProduct] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SdkInitStartPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public static let sessionNumber: Swift.Int
+  public let product: BlinkCard.SdkInitStartPinglet.Product
+  public let platform: BlinkCard.SdkInitStartPinglet.Platform
+  public let platformDetails: BlinkCard.SdkInitStartPinglet.PlatformDetails?
+  public let packageName: Swift.String
+  public let userId: Swift.String
+  public let pingProxyEnabled: Swift.Bool
+  public let baltazarProxyEnabled: Swift.Bool
+  public init(product: BlinkCard.SdkInitStartPinglet.Product, platform: BlinkCard.SdkInitStartPinglet.Platform, platformDetails: BlinkCard.SdkInitStartPinglet.PlatformDetails? = nil, packageName: Swift.String, userId: Swift.String, pingProxyEnabled: Swift.Bool, baltazarProxyEnabled: Swift.Bool)
+  public enum Product : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case blinkcard
+    case blinkid
+    case blinkinput
+    case capture
+    case documentverification
+    case pdf417mobi
+    case photopay
+    case biometrics
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.SdkInitStartPinglet.Product]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.SdkInitStartPinglet.Product] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Platform : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case ios
+    case android
+    case emscripten
+    case macos
+    case linux
+    case windows
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.SdkInitStartPinglet.Platform]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.SdkInitStartPinglet.Platform] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum PlatformDetails : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case basic
+    case advanced
+    case advancedThreads
+    case fullBasic
+    case fullAdvanced
+    case fullAdvancedThreads
+    case lightweightBasic
+    case lightweightAdvanced
+    case lightweightAdvancedThreads
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.SdkInitStartPinglet.PlatformDetails]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.SdkInitStartPinglet.PlatformDetails] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ErrorPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let errorType: BlinkCard.ErrorPinglet.ErrorType
+  public let errorMessage: Swift.String
+  public let stackTrace: Swift.String?
+  public init(errorType: BlinkCard.ErrorPinglet.ErrorType, errorMessage: Swift.String, stackTrace: Swift.String? = nil)
+  public enum ErrorType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case nonfatal
+    case crash
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.ErrorPinglet.ErrorType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.ErrorPinglet.ErrorType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CameraHardwareInfoPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let availableCameras: [BlinkCard.CameraHardwareInfoPinglet.AvailableCamerasItem]
+  public init(availableCameras: [BlinkCard.CameraHardwareInfoPinglet.AvailableCamerasItem])
+  public struct AvailableCamerasItem : Swift.Codable, Swift.Sendable {
+    public let deviceId: Swift.String
+    public let cameraFacing: BlinkCard.CameraHardwareInfoPinglet.CameraFacing
+    public let focus: BlinkCard.CameraHardwareInfoPinglet.Focus?
+    public let availableResolutions: [BlinkCard.CameraHardwareInfoPinglet.AvailableResolutionsItem]?
+    public init(deviceId: Swift.String, cameraFacing: BlinkCard.CameraHardwareInfoPinglet.CameraFacing, focus: BlinkCard.CameraHardwareInfoPinglet.Focus? = nil, availableResolutions: [BlinkCard.CameraHardwareInfoPinglet.AvailableResolutionsItem]? = nil)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct AvailableResolutionsItem : Swift.Codable, Swift.Sendable {
+    public let width: Swift.Int64
+    public let height: Swift.Int64
+    public init(width: Swift.Int64, height: Swift.Int64)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public enum CameraFacing : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case front
+    case back
+    case unknown
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.CameraHardwareInfoPinglet.CameraFacing]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.CameraHardwareInfoPinglet.CameraFacing] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Focus : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case auto
+    case fixed
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.CameraHardwareInfoPinglet.Focus]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.CameraHardwareInfoPinglet.Focus] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CameraPermissionPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let eventType: BlinkCard.CameraPermissionPinglet.EventType
+  public let cameraPermissionGranted: Swift.Bool?
+  public init(eventType: BlinkCard.CameraPermissionPinglet.EventType, cameraPermissionGranted: Swift.Bool? = nil)
+  public enum EventType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case camerapermissioncheck
+    case camerapermissionrequest
+    case camerapermissionuserresponse
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.CameraPermissionPinglet.EventType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.CameraPermissionPinglet.EventType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct LogPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let logLevel: BlinkCard.LogPinglet.LogLevel
+  public let logMessage: Swift.String
+  public init(logLevel: BlinkCard.LogPinglet.LogLevel, logMessage: Swift.String)
+  public enum LogLevel : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case info
+    case warning
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.LogPinglet.LogLevel]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.LogPinglet.LogLevel] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ScanningConditionsPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let updateType: BlinkCard.ScanningConditionsPinglet.UpdateType
+  public let deviceOrientation: BlinkCard.ScanningConditionsPinglet.DeviceOrientation?
+  public let flashlightOn: Swift.Bool?
+  public init(updateType: BlinkCard.ScanningConditionsPinglet.UpdateType, deviceOrientation: BlinkCard.ScanningConditionsPinglet.DeviceOrientation? = nil, flashlightOn: Swift.Bool? = nil)
+  public enum UpdateType : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case deviceorientation
+    case flashlightstate
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.ScanningConditionsPinglet.UpdateType]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.ScanningConditionsPinglet.UpdateType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum DeviceOrientation : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case portrait
+    case landscaperight
+    case landscapeleft
+    case portraitupside
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.ScanningConditionsPinglet.DeviceOrientation]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.ScanningConditionsPinglet.DeviceOrientation] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct BrowserDeviceInfoPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let userAgentData: BlinkCard.BrowserDeviceInfoPinglet.UserAgentData?
+  public let userAgent: Swift.String
+  public let threads: Swift.Int64
+  public let memory: Swift.Double?
+  public let gpu: BlinkCard.BrowserDeviceInfoPinglet.Gpu?
+  public let screen: BlinkCard.BrowserDeviceInfoPinglet.Screen
+  public let browserStorageSupport: BlinkCard.BrowserDeviceInfoPinglet.BrowserStorageSupport
+  public let derivedDeviceInfo: BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfo
+  public init(userAgentData: BlinkCard.BrowserDeviceInfoPinglet.UserAgentData? = nil, userAgent: Swift.String, threads: Swift.Int64, memory: Swift.Double? = nil, gpu: BlinkCard.BrowserDeviceInfoPinglet.Gpu? = nil, screen: BlinkCard.BrowserDeviceInfoPinglet.Screen, browserStorageSupport: BlinkCard.BrowserDeviceInfoPinglet.BrowserStorageSupport, derivedDeviceInfo: BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfo)
+  public struct UserAgentData : Swift.Codable, Swift.Sendable {
+    public let brands: [BlinkCard.BrowserDeviceInfoPinglet.BrandsItem]?
+    public let mobile: Swift.Bool?
+    public let platform: Swift.String?
+    public let architecture: Swift.String?
+    public let bitness: Swift.String?
+    public let formFactors: [BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem]?
+    public let model: Swift.String?
+    public let platformVersion: Swift.String?
+    public let fullVersionList: [BlinkCard.BrowserDeviceInfoPinglet.FullVersionListItem]?
+    public let wow64: Swift.Bool?
+    public init(brands: [BlinkCard.BrowserDeviceInfoPinglet.BrandsItem]? = nil, mobile: Swift.Bool? = nil, platform: Swift.String? = nil, architecture: Swift.String? = nil, bitness: Swift.String? = nil, formFactors: [BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem]? = nil, model: Swift.String? = nil, platformVersion: Swift.String? = nil, fullVersionList: [BlinkCard.BrowserDeviceInfoPinglet.FullVersionListItem]? = nil, wow64: Swift.Bool? = nil)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct BrandsItem : Swift.Codable, Swift.Sendable {
+    public let brand: Swift.String
+    public let version: Swift.String
+    public init(brand: Swift.String, version: Swift.String)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct FullVersionListItem : Swift.Codable, Swift.Sendable {
+    public let brand: Swift.String
+    public let version: Swift.String
+    public init(brand: Swift.String, version: Swift.String)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct Gpu : Swift.Codable, Swift.Sendable {
+    public let renderer: Swift.String
+    public let shadingLanguageVersion: Swift.String
+    public let vendor: Swift.String
+    public let version: Swift.String
+    public init(renderer: Swift.String, shadingLanguageVersion: Swift.String, vendor: Swift.String, version: Swift.String)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct Screen : Swift.Codable, Swift.Sendable {
+    public let screenWidth: Swift.Int64
+    public let screenHeight: Swift.Int64
+    public let devicePixelRatio: Swift.Double
+    public let physicalScreenWidth: Swift.Double
+    public let physicalScreenHeight: Swift.Double
+    public let maxTouchPoints: Swift.Int64
+    public init(screenWidth: Swift.Int64, screenHeight: Swift.Int64, devicePixelRatio: Swift.Double, physicalScreenWidth: Swift.Double, physicalScreenHeight: Swift.Double, maxTouchPoints: Swift.Int64)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct BrowserStorageSupport : Swift.Codable, Swift.Sendable {
+    public let cookieEnabled: Swift.Bool
+    public let localStorageEnabled: Swift.Bool
+    public init(cookieEnabled: Swift.Bool, localStorageEnabled: Swift.Bool)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct DerivedDeviceInfo : Swift.Codable, Swift.Sendable {
+    public let model: Swift.String
+    public let formFactors: [BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem]
+    public let platform: Swift.String
+    public let browser: BlinkCard.BrowserDeviceInfoPinglet.Browser
+    public init(model: Swift.String, formFactors: [BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem], platform: Swift.String, browser: BlinkCard.BrowserDeviceInfoPinglet.Browser)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct Browser : Swift.Codable, Swift.Sendable {
+    public let brand: Swift.String
+    public let version: Swift.String
+    public init(brand: Swift.String, version: Swift.String)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public enum UserAgentDataFormFactorsItem : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case desktop
+    case automotive
+    case mobile
+    case tablet
+    case xr
+    case eink
+    case watch
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum DerivedDeviceInfoFormFactorsItem : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case desktop
+    case automotive
+    case mobile
+    case tablet
+    case xr
+    case eink
+    case watch
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CameraInputInfoPinglet : BlinkCard.Pinglet {
+  public static let schemaName: Swift.String
+  public static let schemaVersion: Swift.String
+  public let deviceId: Swift.String
+  public let cameraFacing: BlinkCard.CameraInputInfoPinglet.CameraFacing
+  public let cameraFrameWidth: Swift.Int64
+  public let cameraFrameHeight: Swift.Int64
+  public let roiWidth: Swift.Int64
+  public let roiHeight: Swift.Int64
+  public let viewPortAspectRatio: Swift.Double
+  public init(deviceId: Swift.String, cameraFacing: BlinkCard.CameraInputInfoPinglet.CameraFacing, cameraFrameWidth: Swift.Int64, cameraFrameHeight: Swift.Int64, roiWidth: Swift.Int64, roiHeight: Swift.Int64, viewPortAspectRatio: Swift.Double)
+  public enum CameraFacing : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Sendable {
+    case front
+    case back
+    case unknown
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [BlinkCard.CameraInputInfoPinglet.CameraFacing]
+    public typealias RawValue = Swift.String
+    nonisolated public static var allCases: [BlinkCard.CameraInputInfoPinglet.CameraFacing] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension BlinkCard.SessionError : Swift.Equatable {}
+extension BlinkCard.SessionError : Swift.Hashable {}
+extension BlinkCard.CheckResult : Swift.Equatable {}
+extension BlinkCard.CheckResult : Swift.Hashable {}
+extension BlinkCard.CheckResult : Swift.RawRepresentable {}
+extension BlinkCard.InputImageSource : Swift.Equatable {}
+extension BlinkCard.InputImageSource : Swift.Hashable {}
+extension BlinkCard.StrictnessLevel : Swift.Equatable {}
+extension BlinkCard.StrictnessLevel : Swift.Hashable {}
+extension BlinkCard.RedactionMode : Swift.Equatable {}
+extension BlinkCard.RedactionMode : Swift.Hashable {}
+extension BlinkCard.RedactionMode : Swift.RawRepresentable {}
+extension BlinkCard.SensitivityLevel : Swift.Equatable {}
+extension BlinkCard.SensitivityLevel : Swift.Hashable {}
+extension BlinkCard.BlinkCardSDK.ScanningStatus : Swift.Equatable {}
+extension BlinkCard.BlinkCardSDK.ScanningStatus : Swift.Hashable {}
+extension BlinkCard.BlinkCardSDK.FieldExtractionStatus : Swift.Equatable {}
+extension BlinkCard.BlinkCardSDK.FieldExtractionStatus : Swift.Hashable {}
+extension BlinkCard.BlinkCardSDK.ImageExtractionStatus : Swift.Equatable {}
+extension BlinkCard.BlinkCardSDK.ImageExtractionStatus : Swift.Hashable {}
+extension BlinkCard.BlinkCardSDK.ProcessingStatus : Swift.Equatable {}
+extension BlinkCard.BlinkCardSDK.ProcessingStatus : Swift.Hashable {}
+extension BlinkCard.CardRotation : Swift.Equatable {}
+extension BlinkCard.CardRotation : Swift.Hashable {}
+extension BlinkCard.CardRotation : Swift.RawRepresentable {}
+extension BlinkCard.ModelLoadError : Swift.Equatable {}
+extension BlinkCard.ModelLoadError : Swift.Hashable {}
+extension BlinkCard.ImageOrientation : Swift.Equatable {}
+extension BlinkCard.ImageOrientation : Swift.Hashable {}
+extension BlinkCard.CameraFrameVideoOrientation : Swift.Equatable {}
+extension BlinkCard.CameraFrameVideoOrientation : Swift.Hashable {}
+extension BlinkCard.UXLicenseProviderBridge : Swift.Sendable {}
+extension BlinkCard.DetectionStatus : Swift.Equatable {}
+extension BlinkCard.DetectionStatus : Swift.Hashable {}
+extension BlinkCard.DetectionStatus : Swift.RawRepresentable {}
+extension BlinkCard.DocumentRotation : Swift.Equatable {}
+extension BlinkCard.DocumentRotation : Swift.Hashable {}
+extension BlinkCard.DocumentRotation : Swift.RawRepresentable {}
+extension BlinkCard.ImageAnalysisDetectionStatus : Swift.Equatable {}
+extension BlinkCard.ImageAnalysisDetectionStatus : Swift.Hashable {}
+extension BlinkCard.ImageAnalysisDetectionStatus : Swift.RawRepresentable {}
+extension BlinkCard.ScanningSide : Swift.Equatable {}
+extension BlinkCard.ScanningSide : Swift.Hashable {}
+extension BlinkCard.ScanningSide : Swift.RawRepresentable {}
+extension BlinkCard.ProcessingActor : _Concurrency.GlobalActor {}
+extension BlinkCard.UxEventPinglet.EventType : Swift.Equatable {}
+extension BlinkCard.UxEventPinglet.EventType : Swift.Hashable {}
+extension BlinkCard.UxEventPinglet.EventType : Swift.RawRepresentable {}
+extension BlinkCard.UxEventPinglet.ErrorMessageType : Swift.Equatable {}
+extension BlinkCard.UxEventPinglet.ErrorMessageType : Swift.Hashable {}
+extension BlinkCard.UxEventPinglet.ErrorMessageType : Swift.RawRepresentable {}
+extension BlinkCard.UxEventPinglet.AlertType : Swift.Equatable {}
+extension BlinkCard.UxEventPinglet.AlertType : Swift.Hashable {}
+extension BlinkCard.UxEventPinglet.AlertType : Swift.RawRepresentable {}
+extension BlinkCard.UxEventPinglet.HelpCloseType : Swift.Equatable {}
+extension BlinkCard.UxEventPinglet.HelpCloseType : Swift.Hashable {}
+extension BlinkCard.UxEventPinglet.HelpCloseType : Swift.RawRepresentable {}
+extension BlinkCard.WrapperProductInfoPinglet.WrapperProduct : Swift.Equatable {}
+extension BlinkCard.WrapperProductInfoPinglet.WrapperProduct : Swift.Hashable {}
+extension BlinkCard.WrapperProductInfoPinglet.WrapperProduct : Swift.RawRepresentable {}
+extension BlinkCard.SdkInitStartPinglet.Product : Swift.Equatable {}
+extension BlinkCard.SdkInitStartPinglet.Product : Swift.Hashable {}
+extension BlinkCard.SdkInitStartPinglet.Product : Swift.RawRepresentable {}
+extension BlinkCard.SdkInitStartPinglet.Platform : Swift.Equatable {}
+extension BlinkCard.SdkInitStartPinglet.Platform : Swift.Hashable {}
+extension BlinkCard.SdkInitStartPinglet.Platform : Swift.RawRepresentable {}
+extension BlinkCard.SdkInitStartPinglet.PlatformDetails : Swift.Equatable {}
+extension BlinkCard.SdkInitStartPinglet.PlatformDetails : Swift.Hashable {}
+extension BlinkCard.SdkInitStartPinglet.PlatformDetails : Swift.RawRepresentable {}
+extension BlinkCard.ErrorPinglet.ErrorType : Swift.Equatable {}
+extension BlinkCard.ErrorPinglet.ErrorType : Swift.Hashable {}
+extension BlinkCard.ErrorPinglet.ErrorType : Swift.RawRepresentable {}
+extension BlinkCard.CameraHardwareInfoPinglet.CameraFacing : Swift.Equatable {}
+extension BlinkCard.CameraHardwareInfoPinglet.CameraFacing : Swift.Hashable {}
+extension BlinkCard.CameraHardwareInfoPinglet.CameraFacing : Swift.RawRepresentable {}
+extension BlinkCard.CameraHardwareInfoPinglet.Focus : Swift.Equatable {}
+extension BlinkCard.CameraHardwareInfoPinglet.Focus : Swift.Hashable {}
+extension BlinkCard.CameraHardwareInfoPinglet.Focus : Swift.RawRepresentable {}
+extension BlinkCard.CameraPermissionPinglet.EventType : Swift.Equatable {}
+extension BlinkCard.CameraPermissionPinglet.EventType : Swift.Hashable {}
+extension BlinkCard.CameraPermissionPinglet.EventType : Swift.RawRepresentable {}
+extension BlinkCard.LogPinglet.LogLevel : Swift.Equatable {}
+extension BlinkCard.LogPinglet.LogLevel : Swift.Hashable {}
+extension BlinkCard.LogPinglet.LogLevel : Swift.RawRepresentable {}
+extension BlinkCard.ScanningConditionsPinglet.UpdateType : Swift.Equatable {}
+extension BlinkCard.ScanningConditionsPinglet.UpdateType : Swift.Hashable {}
+extension BlinkCard.ScanningConditionsPinglet.UpdateType : Swift.RawRepresentable {}
+extension BlinkCard.ScanningConditionsPinglet.DeviceOrientation : Swift.Equatable {}
+extension BlinkCard.ScanningConditionsPinglet.DeviceOrientation : Swift.Hashable {}
+extension BlinkCard.ScanningConditionsPinglet.DeviceOrientation : Swift.RawRepresentable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem : Swift.Equatable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem : Swift.Hashable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.UserAgentDataFormFactorsItem : Swift.RawRepresentable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem : Swift.Equatable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem : Swift.Hashable {}
+extension BlinkCard.BrowserDeviceInfoPinglet.DerivedDeviceInfoFormFactorsItem : Swift.RawRepresentable {}
+extension BlinkCard.CameraInputInfoPinglet.CameraFacing : Swift.Equatable {}
+extension BlinkCard.CameraInputInfoPinglet.CameraFacing : Swift.Hashable {}
+extension BlinkCard.CameraInputInfoPinglet.CameraFacing : Swift.RawRepresentable {}

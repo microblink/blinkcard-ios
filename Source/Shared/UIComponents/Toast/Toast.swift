@@ -1,8 +1,9 @@
-//  Created by Jura Skrlec on 02.04.2025..
-//  Copyright (c) Microblink. All rights reserved.
-//  Modifications are allowed under the terms of the license for files located in the UX/UI lib folder.
 //
-
+//  Toast.swift
+//  DocumentVerificationUX
+//
+//  Created by Jura Skrlec on 02.04.2025..
+//
 import SwiftUI
 
 struct Toast: View {

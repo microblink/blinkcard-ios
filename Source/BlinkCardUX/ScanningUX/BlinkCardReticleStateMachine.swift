@@ -26,4 +26,15 @@ public class BlinkCardReticleStateMachine: ReticleStateMachineProtocol {
     public func calculateState(using mostFrequentState: BlinkCardReticleState) -> BlinkCardReticleState {
         return mostFrequentState
     }
+
+    public func forcedState(state: ReticleStateType) {
+        // no-op
+        print("WARN: forcedState(state:) not yet implemented for BlinkCardReticleStateMachine")
+    }
+
+
+    public func setInitialState() {
+        // no-op
+        print("WARN: setInitialState not yet implemented for BlinkCardReticleStateMachine")
+    }
 }

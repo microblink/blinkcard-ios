@@ -1,6 +1,9 @@
+//
+//  BlinkCardTheme.swift
+//  BlinkCardUX
+//
 //  Created by Toni Kreso on 17.12.2025..
-//  Copyright (c) Microblink. All rights reserved.
-//  Modifications are allowed under the terms of the license for files located in the UX/UI lib folder.
+//
 
 import SwiftUI
 
@@ -50,4 +53,45 @@ public final class BlinkCardTheme: UXThemeProtocol {
     
     // Toast
     public var toastBackgroundColor: Color = .mbToastBackground
+
+    // MARK: - Custom localization
+
+    /// A bundle from the host app containing translations that override the SDK's
+    /// built-in strings.
+    ///
+    /// Provide the keys you want to override (e.g. `mb_back_instructions`) in your
+    /// own `Localizable.xcstrings`/`.strings` file. For any key that is missing in
+    /// this bundle, the SDK falls back to its built-in translation, so you only
+    /// need to supply the strings you actually want to change.
+    ///
+    /// Example:
+    /// ```swift
+    /// BlinkCardTheme.shared.localizationBundle = .main
+    /// ```
+    public var localizationBundle: Bundle? {
+        get { Bundle.customLocalizationBundle }
+        set { Bundle.customLocalizationBundle = newValue }
+    }
+
+    /// Optional strings table name inside ``localizationBundle``.
+    ///
+    /// Leave `nil` to use the default `Localizable` table. Set this when your
+    /// overrides live in a separate table (e.g. `"BlinkCard"` for `BlinkCard.strings`).
+    public var localizationTableName: String? {
+        get { Bundle.customLocalizationTable }
+        set { Bundle.customLocalizationTable = newValue }
+    }
+
+    /// Forces the SDK's UI language regardless of the device's system settings,
+    /// e.g. `"de"` or `"en-GB"`. The language must be present in the SDK's
+    /// bundled translations (or in ``localizationBundle``); otherwise the SDK
+    /// falls back to the system language. Right-to-left languages (Arabic,
+    /// Hebrew, …) also flip the scanning UI's layout direction.
+    ///
+    /// Set to `nil` to follow the system language (the default). Configure this
+    /// before presenting the scanning UI.
+    public var language: String? {
+        get { Bundle.languageOverride }
+        set { Bundle.languageOverride = newValue }
+    }
 }

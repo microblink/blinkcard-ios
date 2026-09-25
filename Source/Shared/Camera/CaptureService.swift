@@ -1,3 +1,7 @@
+//
+//  CaptureService.swift
+//  DocumentVerification
+//
 //  Created by Jura Skrlec on 06.12.2024..
 //  Copyright (c) Microblink. All rights reserved.
 //  This code is provided for use as-is and may not be copied, modified, or redistributed.
@@ -74,6 +78,9 @@ public actor CaptureService {
     private var runtimeErrorNotificationTask: Task<Void, Never>?
     
     init() {
+        if #available(iOS 26.0, *) {
+            captureSession.automaticallyRunsDeferredStart = true
+        }
         // Create a source object to connect the preview view with the capture session.
         previewSource = DefaultPreviewSource(session: captureSession)
     }
@@ -111,6 +118,7 @@ public actor CaptureService {
         captureSession.stopRunning()
         stopTasks()
         isSetUp = false
+        videoCapture.end()
     }
     
     // MARK: - Capture setup
@@ -131,7 +139,7 @@ public actor CaptureService {
             activeVideoInput = try addInput(for: defaultCamera)
 
             // Configure the session for video capture by default.
-            captureSession.sessionPreset = .hd1920x1080
+            captureSession.sessionPreset = .high
             try addOutput(videoCapture.output)
             
             // Monitor the system-preferred camera state.
@@ -205,7 +213,10 @@ public actor CaptureService {
     // Changes the device the service uses for video capture.
     private func changeCaptureDevice(to device: AVCaptureDevice) {
         // The service must have a valid video input prior to calling this method.
-        guard let currentInput = activeVideoInput else { fatalError() }
+        guard let currentInput = activeVideoInput else {
+            logger.error("Missing video input")
+            return
+        }
         
         // Bracket the following configuration in a begin/commit configuration pair.
         captureSession.beginConfiguration()
@@ -250,9 +261,10 @@ public actor CaptureService {
     }
     
     func updatePreviewOrientation(_ orientation: AVCaptureVideoOrientation) {
-        let previewLayer = videoPreviewLayer
-        Task { @MainActor in
-            previewLayer.connection?.videoOrientation = orientation
+        if let previewLayer = videoPreviewLayer {
+            Task { @MainActor in
+                previewLayer.connection?.videoOrientation = orientation
+            }
         }
     }
 
@@ -261,10 +273,11 @@ public actor CaptureService {
         outputServices.forEach { $0.setVideoOrientation(orientation) }
     }
     
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
         // Access the capture session's connected preview layer.
         guard let previewLayer = captureSession.connections.compactMap({ $0.videoPreviewLayer }).first else {
-            fatalError("The app is misconfigured. The capture session should have a connection to a preview layer.")
+            logger.error("The app is misconfigured. The capture session should have a connection to a preview layer.")
+            return nil
         }
         return previewLayer
     }
@@ -276,12 +289,13 @@ public actor CaptureService {
     /// The app calls this method as the result of a person tapping on the preview area.
     func focusAndExpose(at point: CGPoint) {
         // The point this call receives is in view-space coordinates. Convert this point to device coordinates.
-        let devicePoint = videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: point)
-        do {
-            // Perform a user-initiated focus and expose.
-            try focusAndExpose(at: devicePoint, isUserInitiated: true)
-        } catch {
-            logger.debug("Unable to perform focus and exposure operation. \(error)")
+        if let devicePoint = videoPreviewLayer?.captureDevicePointConverted(fromLayerPoint: point) {
+            do {
+                // Perform a user-initiated focus and expose.
+                try focusAndExpose(at: devicePoint, isUserInitiated: true)
+            } catch {
+                logger.debug("Unable to perform focus and exposure operation. \(error)")
+            }
         }
     }
     
@@ -330,6 +344,9 @@ public actor CaptureService {
     /// Sets whether the SDK enables torch.
     func setTorchEnabled(_ isEnabled: Bool) {
         // Bracket the following configuration in a begin/commit configuration pair.
+        
+        guard captureSession.isRunning else { return }
+        
         captureSession.beginConfiguration()
         defer { captureSession.commitConfiguration() }
         do {

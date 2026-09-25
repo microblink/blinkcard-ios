@@ -1,6 +1,8 @@
+//
 //  BlinkCardUXView.swift
 //  BlinkCardUX
-//  This code is provided for use as-is and may not be copied, modified, or redistributed.
+//
+//  Created by Toni Kreso on 17.12.2025..
 //
 
 import SwiftUI
@@ -18,9 +20,9 @@ public struct BlinkCardUXView: View, ScanningUXProtocol {
     typealias UXModel = BlinkCardUXModel
     typealias EventType = BlinkCardUIEvent
     typealias ReticleStateMachineType = BlinkCardReticleStateMachine
-    typealias OnboardingStepType = BlinkCardOnboardingStep
-    
     @ObservedObject var viewModel: BlinkCardUXModel
+
+    var onboardingSteps: [any OnboardingStepProtocol] { Array(BlinkCardOnboardingStep.allCases) }
     
     let theme = BlinkCardTheme.shared
     
@@ -28,7 +30,15 @@ public struct BlinkCardUXView: View, ScanningUXProtocol {
         self.viewModel = viewModel
     }
     
+    var onboardingAlert: OnboardingAlertContent {
+        OnboardingAlertContent(
+            title: "mb_blinkcard_onboarding_dialog_title",
+            description: "mb_blinkcard_onboarding_dialog_message",
+            image: Image.scanNumberFirstImage
+        )
+    }
+
     public var body: some View {
-        MainView(reticleStateMachine: viewModel.reticleStateMachine, isTorchOn: $viewModel.isTorchOn, showToast: $viewModel.isToastVisible, showSheet: $viewModel.showSheet, showLicenseErrorAlert: $viewModel.showLicenseErrorAlert, onboardingAlertTitle: "mb_blinkcard_onboarding_dialog_title", onboardingAlertDescription: "mb_blinkcard_onboarding_dialog_message", onboardingAlertImage: Image.scanNumberFirstImage, timeoutAlertDescription: "mb_blinkcard_recognition_timeout_dialog_message".localizedString, flashlightWarningMessage: "mb_blinkcard_flashlight_warning_message".localizedString)
+        MainView(reticleStateMachine: viewModel.reticleStateMachine, isTorchOn: $viewModel.isTorchOn, showToast: $viewModel.isToastVisible, showSheet: $viewModel.showSheet, showLicenseErrorAlert: $viewModel.showLicenseErrorAlert, flashlightWarningMessage: "mb_blinkcard_flashlight_warning_message".localizedString)
     }
 }

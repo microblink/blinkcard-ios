@@ -1,5 +1,32 @@
 # Release notes
 
+## 3001.0.0
+
+### Improved card extraction
+- Upgraded the card OCR model for more reliable character recognition, including better handling of spaces when card-number segments are merged.
+- Expiry dates are recognized in additional layouts, including:
+  - day-first dates (15/06/2021)
+  - year-first dates (2021/06)
+  - formats that use an apostrophe (06/'21) or a backslash (06\21)
+- Fixed CVV validation for American Express. Valid 4-digit Amex security codes are no longer discarded.
+
+### BIN intelligence
+- We now list an explicit `binCheckResult` on the card account:
+  - Pass: BIN was found
+  - Fail: PAN was read, but BIN was not found
+  - Not available: BIN check was not run (including when the license does not allow it)
+  
+### Privacy: redaction defaults
+- Scanning now redacts sensitive card data by default:
+  - Card number: Redacted in both the image and the result; first 4 and last 4 digits remain visible
+  - CVV: Fully redacted in both the image and the result
+  - IBAN: Not redacted
+  - Cardholder name: Not redacted
+  
+### Migration notes
+- The UX view model now has separate inactivity and scan-step timeouts.
+- ScanningUXSettings now has helpTooltipShowDelay and helpTooltipHideDelay for controlling the tooltip on the help buton
+
 ## 3000.0.1
 
 ### Bugfixes and improvements

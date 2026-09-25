@@ -1,6 +1,8 @@
+//
+//  BlinkCardUXModel.swift
+//  BlinkCardUX
+//
 //  Created by Toni Kreso on 17.12.2025..
-//  Copyright (c) Microblink. All rights reserved.
-//  Modifications are allowed under the terms of the license for files located in the UX/UI lib folder.
 //
 
 import AVFoundation
@@ -56,34 +58,24 @@ public final class BlinkCardUXModel: ScanningViewModel<BlinkCardScanningResult, 
             for await events in await analyzer.events.stream {
                 if events.contains(.requestSecondSide) {
                     firstSideScanned(frontFlipImage: Image.frontCardImage, backFlipImage: Image.backCardImage, flipState: .flip, nextState: .second)
-                    cancelTooltipTimer()
                 } else if events.contains(.fieldIdentificationFailed) {
                     self.setReticleState(.error("mb_blinkcard_card_not_fully_visible"))
-                    self.trackErrorMessage(.keepvisible)
                 } else if events.contains(.wrongSide) {
                     self.setReticleState(.error("mb_blinkcard_scanning_wrong_side"))
-                    self.trackErrorMessage(.flipside)
                 } else if events.contains(.imageReturnFailed) {
                     self.setReticleState(.error("mb_blinkcard_card_not_fully_visible"))
-                    self.trackErrorMessage(.keepvisible)
                 } else if events.contains(.tooClose) {
                     self.setReticleState(.error("mb_move_farther"))
-                    self.trackErrorMessage(.movefarther)
                 } else if events.contains(.tooFar) {
                     self.setReticleState(.error("mb_move_closer"))
-                    self.trackErrorMessage(.movecloser)
                 } else if events.contains(.tilt) {
                     self.setReticleState(.error("mb_blinkcard_keep_card_parallel"))
-                    self.trackErrorMessage(.aligndocument)
                 } else if events.contains(.tooCloseToEdge) {
                     self.setReticleState(.error("mb_move_farther"))
-                    self.trackErrorMessage(.movefromedge)
                 } else if events.contains(.notFullyVisible) {
                     self.setReticleState(.error("mb_blinkcard_card_not_fully_visible"))
-                    self.trackErrorMessage(.keepvisible)
                 } else if events.contains(.blur) {
                     self.setReticleState(.error("mb_blinkcard_blur_detected"))
-                    self.trackErrorMessage(.eliminateblur)
                 } else {
                     self.setReticleState(reticleStateMachine.fallbackState)
                 }

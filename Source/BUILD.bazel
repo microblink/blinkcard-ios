@@ -1,0 +1,8 @@
+filegroup(
+    name = "UXPrivacyInfo",
+    srcs = [
+        "PrivacyInfo.xcprivacy",
+    ],
+    visibility = ["//visibility:public"],
+)
+

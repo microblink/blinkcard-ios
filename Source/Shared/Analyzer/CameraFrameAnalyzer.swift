@@ -1,7 +1,6 @@
 //  Created by Jura Skrlec on 13.02.2025.
 //  Copyright (c) Microblink. All rights reserved.
-//  This code is provided for use as-is and may not be copied, modified, or redistributed.
-//
+//  Modifications are allowed under the terms of the license for files located in the UX/UI lib folder.
 
 import Foundation
 
@@ -60,7 +59,10 @@ public protocol CameraFrameAnalyzer<Frame, Event> : Sendable {
     
     /// Restart ``CameraFrame`` analyzation.
     func restart() async throws
-    
+
+    /// Reset the per-step timeout back to the full duration
+    func resetStepTimer() async
+
     /// End ``CameraFrame`` analyzation.
     func end() async
     
@@ -73,6 +75,10 @@ public protocol CameraFrameAnalyzer<Frame, Event> : Sendable {
     /// Duration in seconds before scanning step times out and is cancelled.
     /// If less than zero, scanning will not time out.
     var stepTimeoutDuration: TimeInterval { get async }
+    
+    /// Duration in seconds before scanning times out and is cancelled due to inactivity.
+    /// If less than zero, scanning will not time out.
+    var inactivityTimeoutDuration: TimeInterval { get async }
     
     var sessionNumber: Int { get }
 }

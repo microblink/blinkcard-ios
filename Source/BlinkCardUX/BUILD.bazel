@@ -1,0 +1,20 @@
+filegroup(
+    name = "BlinkCardUXSources",
+    srcs = glob([
+        "**/*.swift",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "BlinkCardUXAssets",
+    srcs = glob(
+        include = [
+            "**/*.xcassets/**",
+            "**/*.xcstrings",
+        ], exclude = [
+            "**/.DS_Store",
+        ]
+    ),
+    visibility = ["//visibility:public"],
+)
