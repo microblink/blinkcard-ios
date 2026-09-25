@@ -1,7 +1,8 @@
+//
+//  BlinkCardAnalyzer.swift
+//  BlinkCardUX
+//
 //  Created by Toni Kreso on 17.12.2025..
-//  Copyright (c) Microblink. All rights reserved.
-//  This code is provided for use as-is and may not
-//  be copied, modified, or redistributed.
 //
 
 import Foundation
@@ -49,8 +50,18 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
     private var scanningDone = false
     private var paused = false
     private var resultContinuation: CheckedContinuation<Result, Never>?
+    
     public private(set) var stepTimeoutDuration: TimeInterval
-    private var timerTask: Task<Void, Never>?
+    public private(set) var inactivityTimeoutDuration: TimeInterval
+    
+    private var stepTimerTask: Task<Void, Never>?
+    private var inactivityTimerTask: Task<Void, Never>?
+
+    private var stepTimerStartDate: Date?
+    private var stepTimerInterval: TimeInterval?
+    
+    /// Last event batch sent to the stream; used to detect UI state changes.
+    private var lastSentEvents: [BlinkCardUIEvent] = []
     
     /// Creates a new document verification analyzer.
     /// - Parameters:
@@ -67,6 +78,7 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
         self._sessionNumber = await session.getSessionNumber()
         self.eventStream = eventStream
         self.stepTimeoutDuration = blinkCardSessionSettings.stepTimeoutDuration
+        self.inactivityTimeoutDuration = blinkCardSessionSettings.inactivityTimeoutDuration
     }
     
     private let _sessionNumber: Int
@@ -80,8 +92,12 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
     public func analyze(image: Frame) async {
         guard !paused else { return }
         
-        if timerTask == nil {
-            startTimer(stepTimeoutDuration)
+        if stepTimerTask == nil {
+            resumeStepTimer()
+        }
+        
+        if inactivityTimerTask == nil {
+            await startInactivityTimer(inactivityTimeoutDuration)
         }
         
         let inputImage = InputImage(cameraFrame: image)
@@ -90,6 +106,11 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
             let frameProcessResult = try await session.process(inputImage: inputImage)
             
             let events = translator.translate(frameProcessResult: frameProcessResult, scanningSettings: session.settings.scanningSettings)
+            
+            if events != lastSentEvents {
+                lastSentEvents = events
+                await startInactivityTimer(inactivityTimeoutDuration)
+            }
             
             await eventStream.send(events)
             
@@ -107,7 +128,7 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
     }
     
     private func finishScanning(with result: ScanningResult<BlinkCardScanningResult, BlinkCardScanningAlertType>) {
-        timerTask?.cancel()
+        cancelAllTimers()
         resultContinuation?.resume(returning: result)
         resultContinuation = nil
     }
@@ -128,16 +149,21 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
     public func pause() {
         self.paused = true
         self.cancel()
-        timerTask?.cancel()
+        freezeStepTimerRemaining()
+        cancelAllTimers()
+    }
+    
+    private func freezeStepTimerRemaining() {
+        guard let startDate = stepTimerStartDate, let interval = stepTimerInterval else { return }
+        stepTimerInterval = max(0, interval - Date().timeIntervalSince(startDate))
+        stepTimerStartDate = nil
     }
     
     /// Resumes the document analysis after being paused.
     public func resume() {
         guard paused else { return }
         self.session.resumeActiveProcessing()
-        
         paused = false
-        startTimer(stepTimeoutDuration)
     }
     
     /// Restarts the document analysis after being paused.
@@ -146,7 +172,21 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
             try self.session.reset()
         }
         translator.resetState()
+        lastSentEvents = []
+        cancelAllTimers()
+        stepTimerStartDate = nil
+        stepTimerInterval = nil
         resume()
+    }
+    
+    public func resetStepTimer() {
+        stepTimerTask?.cancel()
+        stepTimerTask = nil
+        stepTimerStartDate = nil
+        stepTimerInterval = nil
+        if !paused {
+            startStepTimer(stepTimeoutDuration)
+        }
     }
     
     public func end() {
@@ -160,9 +200,12 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
         eventStream
     }
     
-    private func startTimer(_ interval: TimeInterval) {
+    private func startStepTimer(_ interval: TimeInterval) {
         guard interval > 0.0 else { return }
-        timerTask = Task() { [weak self] in
+        stepTimerTask?.cancel()
+        stepTimerStartDate = Date()
+        stepTimerInterval = interval
+        stepTimerTask = Task() { [weak self] in
             while !Task.isCancelled {
                 guard let self else { return }
                 let nanoseconds = UInt64(interval * Double(NSEC_PER_SEC))
@@ -174,13 +217,62 @@ public actor BlinkCardAnalyzer: CameraFrameAnalyzer {
         }
     }
     
+    /// Starts (or restarts) the inactivity timer.
+    /// Must be called every time the UI state changes (i.e. a new distinct event batch).
+    private func startInactivityTimer(_ interval: TimeInterval) async {
+        guard inactivityTimeoutDuration > 0 else { return }
+        inactivityTimerTask?.cancel()
+        inactivityTimerTask = Task { [weak self] in
+            guard let self else { return }
+            let nanoseconds = UInt64(interval * Double(NSEC_PER_SEC))
+            try? await Task.sleep(nanoseconds: nanoseconds)
+            guard !Task.isCancelled else { return }
+            await self.scanInterrupted(with: .inactivityTimeout)
+        }
+    }
+    
+    private func cancelAllTimers() {
+        stepTimerTask?.cancel()
+        stepTimerTask = nil
+        inactivityTimerTask?.cancel()
+        inactivityTimerTask = nil
+    }
+    
+    private func resumeStepTimer() {
+        guard stepTimerTask == nil else { return }
+        if let interval = stepTimerInterval {
+            stepTimerInterval = nil
+            if interval <= 0 {
+                scanInterrupted(with: .timeout)
+            } else {
+                startStepTimer(interval)
+            }
+        } else {
+            startStepTimer(stepTimeoutDuration)
+        }
+    }
+    
+    private func cancelInactivityTimer() {
+        inactivityTimerTask?.cancel()
+        inactivityTimerTask = nil
+    }
+    
     private func scanInterrupted(with alertType: BlinkCardScanningAlertType) {
         pause()
         resultContinuation?.resume(returning: .interrupted(alertType))
         resultContinuation = nil
         
-        // ADR 15 - Platform implemented scan timeout
         Task {
+            if sessionNumber > 0 {
+                switch alertType {
+                case .timeout:
+                    let pinglet = UxEventPinglet(eventType: .steptimeout)
+                    await PingManager.shared.addPinglet(pinglet: pinglet, sessionNumber: sessionNumber)
+                case .inactivityTimeout:
+                    let pinglet = UxEventPinglet(eventType: .inactivitytimeout)
+                    await PingManager.shared.addPinglet(pinglet: pinglet, sessionNumber: sessionNumber)
+                }
+            }
             await PingManager.shared.sendPinglets()
         }
     }

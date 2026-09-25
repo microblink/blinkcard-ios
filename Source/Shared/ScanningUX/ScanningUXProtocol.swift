@@ -13,6 +13,12 @@ import BlinkID
 import BlinkCard
 #endif
 
+struct OnboardingAlertContent {
+    let title: String
+    let description: String
+    let image: Image
+}
+
 @MainActor
 /// Protocol defining the core functionality required for document scanning views
 protocol ScanningUXProtocol {
@@ -24,8 +30,10 @@ protocol ScanningUXProtocol {
     associatedtype UXModel: ScanningViewModel<ScanResult, EventType, ReticleStateMachineType, AlertType>
     associatedtype UXTheme: UXThemeProtocol
     associatedtype GenericContentView: View
-    associatedtype OnboardingStepType: OnboardingStepProtocol
-    
+
+    var onboardingSteps: [any OnboardingStepProtocol] { get }
+    var onboardingAlert: OnboardingAlertContent { get }
+
     /// ViewModel used in the document scanning process
     var viewModel: UXModel { get }
     
@@ -44,10 +52,6 @@ protocol ScanningUXProtocol {
                   showToast: Binding<Bool>,
                   showSheet: Binding<Bool>,
                   showLicenseErrorAlert: Binding<Bool>,
-                  onboardingAlertTitle: String,
-                  onboardingAlertDescription: String,
-                  onboardingAlertImage: Image,
-                  timeoutAlertDescription: String,
                   flashlightWarningMessage: String) -> GenericContentView
     
     /// Builder for the cancel button
@@ -122,24 +126,16 @@ extension ScanningUXProtocol where Self: View {
                   showToast: Binding<Bool>,
                   showSheet: Binding<Bool>,
                   showLicenseErrorAlert: Binding<Bool>,
-                  onboardingAlertTitle: String,
-                  onboardingAlertDescription: String,
-                  onboardingAlertImage: Image,
-                  timeoutAlertDescription: String,
                   flashlightWarningMessage: String) -> GenericContentView {
-        createMainView(reticleStateMachine: reticleStateMachine, isTorchOn: isTorchOn, showToast: showToast, showSheet: showSheet, showLicenseErrorAlert: showLicenseErrorAlert, onboardingAlertTitle: onboardingAlertTitle, onboardingAlertDescription: onboardingAlertDescription, onboardingAlertImage: onboardingAlertImage, timeoutAlertDescription: timeoutAlertDescription, flashlightWarningMessage: flashlightWarningMessage) as! GenericContentView
+        createMainView(reticleStateMachine: reticleStateMachine, isTorchOn: isTorchOn, showToast: showToast, showSheet: showSheet, showLicenseErrorAlert: showLicenseErrorAlert, flashlightWarningMessage: flashlightWarningMessage) as! GenericContentView
     }
-    
+
     @ViewBuilder
     private func createMainView(reticleStateMachine: ReticleStateMachineType,
                                 isTorchOn: Binding<Bool>,
                                 showToast: Binding<Bool>,
                                 showSheet: Binding<Bool>,
                                 showLicenseErrorAlert: Binding<Bool>,
-                                onboardingAlertTitle: String,
-                                onboardingAlertDescription: String,
-                                onboardingAlertImage: Image,
-                                timeoutAlertDescription: String,
                                 flashlightWarningMessage: String) -> some View {
         
         AnyView(
@@ -211,9 +207,9 @@ extension ScanningUXProtocol where Self: View {
                                         .ignoresSafeArea()
                                         .accessibilityHidden(true)
                                     OnboardingAlertView(theme: self.theme,
-                                                        title: onboardingAlertTitle,
-                                                        message: onboardingAlertDescription,
-                                                        image: onboardingAlertImage,
+                                                        title: onboardingAlert.title,
+                                                        message: onboardingAlert.description,
+                                                        image: onboardingAlert.image,
                                                         dismiss: viewModel.dismissAlert())
                                 }
                                 .transition(.opacity)
@@ -228,7 +224,7 @@ extension ScanningUXProtocol where Self: View {
                         }
                     }
                     .sheet(isPresented: showSheet) {
-                        OnboardingSheetView<OnboardingStepType>(theme: self.theme, sessionNumber: viewModel.sessionNumber)
+                        OnboardingSheetView(theme: self.theme, sessionNumber: viewModel.sessionNumber, steps: onboardingSteps)
                             .presentationDetents([.height(600)])
                             .interactiveDismissDisabled()
                             .onAppear {
@@ -273,7 +269,7 @@ extension ScanningUXProtocol where Self: View {
                     .onTapGesture(count: 2) {
                         viewModel.showTooltip.toggle()
                     }
-                    .toast(isShowing: showToast, message: flashlightWarningMessage.localizedString, duration: 3, backgroundColor: self.theme.toastBackgroundColor)
+                    .toast(isShowing: showToast, message: flashlightWarningMessage, duration: 3, backgroundColor: self.theme.toastBackgroundColor)
                 }
             }
             .task {
@@ -299,8 +295,10 @@ extension ScanningUXProtocol where Self: View {
                 viewModel.pauseScanning()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                viewModel.resetStepTimer()
                 viewModel.resumeScanning()
             }
+            .mbLocalizationLayoutDirection()
         )
     }
     
@@ -361,5 +359,23 @@ extension ScanningUXProtocol where Self: View {
                 MessageContainer<ReticleStateMachineType>(theme: self.theme, stateMachine: viewModel.reticleStateMachine)
             }
         )
+    }
+}
+
+extension View {
+    /// Forces the SwiftUI layout direction to match `Bundle.languageOverride`
+    /// (right-to-left for languages such as Arabic or Hebrew). When no language
+    /// override is active, the view is returned unchanged so it keeps following
+    /// the system / host layout direction.
+    @ViewBuilder
+    func mbLocalizationLayoutDirection() -> some View {
+        switch Bundle.overrideCharacterDirection {
+        case .rightToLeft:
+            self.environment(\.layoutDirection, .rightToLeft)
+        case .leftToRight:
+            self.environment(\.layoutDirection, .leftToRight)
+        default:
+            self
+        }
     }
 }

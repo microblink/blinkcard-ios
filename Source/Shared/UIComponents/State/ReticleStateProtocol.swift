@@ -9,7 +9,6 @@ public protocol ReticleStateProtocol: Equatable, Hashable {
     var shouldExpire: Bool { get }
     var canBeFallback: Bool { get }
     var isErrorState: Bool { get }
-    static var initialState: Self { get }
     static var inactiveState: Self { get }
     var reticleStateAppearance: ReticleStateAppearance { get }
 }

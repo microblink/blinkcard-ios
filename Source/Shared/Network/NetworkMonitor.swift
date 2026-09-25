@@ -1,3 +1,7 @@
+//
+//  NetworkMonitor.swift
+//  DocumentVerificationUX
+//
 //  Created by Jura Skrlec on 07.01.2025..
 //  Copyright (c) Microblink. All rights reserved.
 //  This code is provided for use as-is and may not be copied, modified, or redistributed.

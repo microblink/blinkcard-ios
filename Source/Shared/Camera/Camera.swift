@@ -1,3 +1,7 @@
+//
+//  Camera.swift
+//  DocumentVerification
+//
 //  Created by Jura Skrlec on 06.12.2024..
 //  Copyright (c) Microblink. All rights reserved.
 //  This code is provided for use as-is and may not be copied, modified, or redistributed.
@@ -259,6 +263,7 @@ public final class Camera: CameraModel {
     private func observeState() {
         Task {
             await captureService.$captureCapabilities
+                .receive(on: DispatchQueue.main)
                 .sink { [weak self] capabilities in
                     self?.isTorchSupported = capabilities.isTorchSupported
                 }
@@ -393,7 +398,7 @@ extension ScanningConditionsPinglet.DeviceOrientation {
         case .landscapeLeft:
             return .landscapeleft
         @unknown default:
-            fatalError("Unknown AVCaptureVideoOrientation: \(orientation)")
+            return .landscaperight
         }
     }
 }

@@ -1,10 +1,4 @@
 framework module BlinkCard {
-    umbrella header "BlinkCard.h"
-
-    export *
-}
-
-module BlinkCard.Swift {
-  header "BlinkCard-Swift.h"
+  header "BlinkCard.h"
   requires objc
 }

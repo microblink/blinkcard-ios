@@ -1,6 +1,8 @@
+//
+//  CameraView.swift
+//  DocumentVerificationUX
+//
 //  Created by Jura Skrlec on 09.12.2024..
-//  Copyright (c) Microblink. All rights reserved.
-//  This code is provided for use as-is and may not be copied, modified, or redistributed.
 //
 
 import SwiftUI

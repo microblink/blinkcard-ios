@@ -82,14 +82,14 @@ Once you have your Swift package set up, adding BlinkCard and BlinkCardUX as a d
 We provide a URL to the public package repository that you can add in Xcode:
 
 ```shell
-https://github.com/BlinkCard/blinkcard-swift-package
+https://github.com/microblink/blinkcard-swift-package
 ```
 
 ##### **BlinkCardUX**
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/BlinkCard/blinkcard-ios.git", .upToNextMajor(from: "3000.0.0"))
+    .package(url: "https://github.com/microblink/blinkcard-ios.git", .upToNextMajor(from: "3000.0.0"))
 ]
 ```
 
@@ -116,7 +116,7 @@ If you prefer not to use Swift Package Manager, you can integrate BlinkCard and 
 
 ##### **BlinkCard**
 
-[Download](https://github.com/BlinkCard/blinkcard-ios/releases) latest release (Download `BlinkCard.xcframework.zip` file or clone this repository).
+[Download](https://github.com/microblink/blinkcard-ios/releases) latest release (Download `BlinkCard.xcframework.zip` file or clone this repository).
 
 - Copy `BlinkCard.xcframework` to your project folder.
 
@@ -135,16 +135,16 @@ $ git init
 - Add BlinkCardUX as a git submodule by running the following command:
 
 ```shell
-$ git submodule add https://github.com/BlinkCard/blinkcard-ios.git
+$ git submodule add https://github.com/microblink/blinkcard-ios.git
 ```
 
 To add a local Swift package as a dependency in Xcode:
-	1.	Go to your Xcode project.
-	2.	Select your project in the Project Navigator.
-	3.	Go to the Package Dependencies tab under your project settings.
-	4.	Click the ”+” button to add a new dependency.
-	5.	In the dialog that appears, select the “Add Local…” option at the bottom left.
-	6.	Navigate to the folder containing your local Swift package and select it.
+    1.    Go to your Xcode project.
+    2.    Select your project in the Project Navigator.
+    3.    Go to the Package Dependencies tab under your project settings.
+    4.    Click the ”+” button to add a new dependency.
+    5.    In the dialog that appears, select the “Add Local…” option at the bottom left.
+    6.    Navigate to the folder containing your local Swift package and select it.
 
 This will add the local Swift package as a dependency to your Xcode project.
 
@@ -1184,6 +1184,40 @@ Our app supports localization following Apple’s recommended approach. We provi
 supported languages in your app’s `Info.plist` under the `Localizations` key, ensuring all required keys are included. Once configured, users can change the app’s language via Settings > [App Name] > Language. Note that in-app 
 language switching is not supported, as we adhere to Apple’s intended localization flow.
 
+### <a name="custom-translations"></a> Providing your own translations
+
+If you want to override some or all of the SDK's built-in strings — for example to change the wording, or to ship a language we don't provide out of the box — you can point the SDK at your own translations bundle through the theme.
+
+Add the keys you want to override (the SDK's string keys are prefixed with `mb_`, e.g. `mb_back_instructions`) to your app's `Localizable.xcstrings` (or a dedicated `.strings`/`.stringsdict` table), then configure the theme before presenting the scanning UI:
+
+```swift
+import BlinkCardUX
+
+// Load overrides from your app's main bundle.
+BlinkCardTheme.shared.localizationBundle = .main
+
+// Optional: if your overrides live in a dedicated table (e.g. BlinkCardStrings.xcstrings),
+// set its name here. Leave it as nil to use the default `Localizable` table.
+BlinkCardTheme.shared.localizationTableName = "BlinkCardStrings"
+```
+
+For every string, the SDK first looks up the key in `localizationBundle` and falls back to its own built-in translation when the key isn't found — so you only need to provide the strings you actually want to change. Set `localizationBundle` back to `nil` to restore the SDK's own translations.
+
+### <a name="forcing-a-language"></a> Forcing a specific language (in-app language switching)
+
+By default the SDK follows the device's system language. If you want to display the scanning UI in a specific language regardless of the device settings — for example to let users switch language from within your app — set the language on the theme:
+
+```swift
+import BlinkCardUX
+
+BlinkCardTheme.shared.language = "de"   // force German
+// BlinkCardTheme.shared.language = nil // follow the system language (default)
+```
+
+The language must be present in the SDK's bundled translations (or in your `localizationBundle`); if it isn't, the SDK falls back to the system language. Right-to-left languages (Arabic, Hebrew, …) automatically flip the scanning UI's layout direction.
+
+Configure this **before presenting the scanning UI** — SwiftUI does not re-render an already-visible scanning screen when the value changes, so set it prior to launching a new scan.
+
 ## <a name="sdk-integration-troubleshooting"></a> SDK Integration Troubleshooting
 
 In case of problems with using the SDK, you should do as follows:
@@ -1202,12 +1236,12 @@ When you have determine what is the licence-relate problem or you simply do not 
 ### <a name="troubleshooting-other-problems"></a> Other problems
 
 If you are having problems with scanning certain items, undesired behaviour on specific device(s), crashes inside BlinkCard SDK or anything unmentioned, please do as follows:
-	
+    
 * Contact us at [help.microblink.com](http://help.microblink.com) describing your problem and provide following information:
-	* log file obtained in previous step
-	* high resolution scan/photo of the item that you are trying to scan
-	* information about device that you are using
-	* please stress out that you are reporting problem related to iOS version of BlinkCard SDK
+    * log file obtained in previous step
+    * high resolution scan/photo of the item that you are trying to scan
+    * information about device that you are using
+    * please stress out that you are reporting problem related to iOS version of BlinkCard SDK
 
 # <a name="blinkcard-sdk-size"></a> BlinkCard SDK size
 
@@ -1226,5 +1260,5 @@ You can find the *App Size Report* [here]().
 
 Complete API references can be found:
 
-* [BlinkCard](http://blinkcard.github.io/blinkcard-swift-package/documentation/blinkcard/)
-* [BlinkCardUX](http://blinkcard.github.io/blinkcard-ios/documentation/blinkcardux/)
+* [BlinkCard](http://microblink.github.io/blinkcard-swift-package/documentation/blinkcard/)
+* [BlinkCardUX](http://microblink.github.io/blinkcard-ios/documentation/blinkcardux/)

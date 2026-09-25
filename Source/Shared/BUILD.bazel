@@ -1,0 +1,26 @@
+filegroup(
+    name = "SharedUXSources",
+    srcs = glob([
+        "**/*.swift",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "SharedAssets",
+    srcs = glob(
+        include = [
+            "**/*.xcassets/**",
+        ],
+        exclude = [
+            "**/.DS_Store",
+        ]
+    ),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "SharedSounds",
+    srcs = glob(["**/*.wav"]),
+    visibility = ["//visibility:public"],
+)
