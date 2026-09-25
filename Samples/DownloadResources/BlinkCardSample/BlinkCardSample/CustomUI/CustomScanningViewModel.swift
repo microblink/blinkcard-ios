@@ -59,7 +59,7 @@ public final class CustomScanningViewModel: ObservableObject {
         }
         
         for await frame in await camera.sampleBuffer {
-            await analyzer.analyze(image: CameraFrame(buffer: MBSampleBufferWrapper(cmSampleBuffer: frame.buffer), roi: roi, orientation: camera.orientation.toCameraFrameVideoOrientation()))
+            await analyzer.analyze(image: CameraFrame(buffer: frame.buffer, roi: roi, orientation: camera.orientation.toCameraFrameVideoOrientation()))
         }
     }
     
