@@ -4,7 +4,7 @@ SPDXID: SPDXRef-DOCUMENT
 DocumentName: //BlinkCard:BlinkCard
 Creator: Person: pero
 Creator: Tool: https//github.com/bazelbuild/rules_license/tools:write_sbom
-Created: 2026-09-25-08:16:38Z
+Created: 2026-09-28-13:46:13Z
 
 ##### Package: //BlinkCard:BlinkCard
 SPDXID: "@@core-identity+//3rdparty/config_ex/ConfigEx"

@@ -89,7 +89,7 @@ https://github.com/microblink/blinkcard-swift-package
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/microblink/blinkcard-ios.git", .upToNextMajor(from: "3000.0.0"))
+    .package(url: "https://github.com/microblink/blinkcard-ios.git", .upToNextMajor(from: "3001.0.0"))
 ]
 ```
 
