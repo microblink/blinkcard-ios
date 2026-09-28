@@ -46,7 +46,8 @@ let package = Package(name: "BlinkCardUX",
                                         path: "Source",
                                         resources: [
                                             .process("PrivacyInfo.xcprivacy"),
-                                            .process("BlinkCardUX/Localizable.xcstrings")],
+                                            .process("BlinkCardUX/Localizable.xcstrings"),
+                                            .process("Shared/Sounds")],
                                         swiftSettings: [
                                             .enableUpcomingFeature("ExistentialAny"),
                                             .define("BLINKCARDUX")
