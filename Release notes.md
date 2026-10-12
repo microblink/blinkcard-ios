@@ -1,5 +1,14 @@
 # Release notes
 
+## 3001.0.1
+
+### Bug fixes
+- Xcode 16 compatibility: Fixed `BlinkCardUX` build errors with Xcode 16 (Swift 6.1) caused by camera APIs available only in the iOS 26 SDK. When building with Xcode 26 or later, deferred camera start is enabled as before.
+- Swift interface compatibility: The `BlinkCard` Swift interface is now built with Xcode 27 and remains compatible with earlier Xcode versions.
+
+### Requirements
+- Minimum supported toolchain is now Swift 6.1 / Xcode 16.3 (previously listed as Xcode 26.2).
+
 ## 3001.0.0
 
 ### Improved card extraction
@@ -25,7 +34,7 @@
   
 ### Migration notes
 - The UX view model now has separate inactivity and scan-step timeouts.
-- ScanningUXSettings now has helpTooltipShowDelay and helpTooltipHideDelay for controlling the tooltip on the help buton
+- ScanningUXSettings now has helpTooltipShowDelay and helpTooltipHideDelay for controlling the tooltip on the help button
 
 ## 3000.0.1
 
@@ -90,7 +99,7 @@ We are moving to an Epoch-based versioning system: `(EPOCH * 1000 + MAJOR).MINOR
 We have prepared transition guides to help you get started with BlinkCard v3000.0.0:
 
 - [General transition guide](https://blinkcard.docs.microblink.com/migration-v3000)
-- [iOS-specific transition guide](https://github.com/BlinkCard/blinkcard-ios/blob/master/Transition%20guide%20v3000.0.0.md)
+- [iOS-specific transition guide](https://github.com/microblink/blinkcard-ios/blob/master/Transition%20guide%20v3000.0.0.md)
 
 These guides outline all major API changes and best practices for migrating existing code. 
 
@@ -219,7 +228,7 @@ For any questions or feedback, reach out to support@microblink.com. We value you
 
 ## 2.4.0
 ### Improvements and fixes:
-- We now support landscape orientation on [BlinkCardEditViewController](https://blinkcard.github.io/blinkcard-ios/Classes/MBCBlinkCardEditViewController.html) screen
+- We now support landscape orientation on [BlinkCardEditViewController](https://microblink.github.io/blinkcard-ios/Classes/MBCBlinkCardEditViewController.html) screen
 - From now on, BlinkCard reads and extracts the expiry date in MM/YYYY format
 
 ## 2.3.0
@@ -301,12 +310,12 @@ As of this version, BlinkCard SDK is fully compatible with other Microblink SDKs
 
 - We've expanded the set of possible recognizer states with **StageValid**. This state is set when first side scanning completes with valid data, and second side scanning is required.
 
-- Available [`MBCBlinkCardRecognizer`](https://blinkcard.github.io/blinkcard-ios/Classes/MBCBlinkCardRecognizer.html):
+- Available [`MBCBlinkCardRecognizer`](https://microblink.github.io/blinkcard-ios/Classes/MBCBlinkCardRecognizer.html):
     - You can toggle mandatory **extraction** of all fields except the PAN.
     - You can enable the **blur filter**. When blur filtering is enabled, blurred frames are discarded. Otherwise, we process the blurred frames but set the blur indicator result member.
     - You can define required **padding** around the detected document. This ensures some empty space exists between the document and the edge of the frame.
 
-- [MBCBlinkCardRecognizerResult](https://blinkcard.github.io/blinkcard-ios/Classes/MBCBlinkCardRecognizerResult.html) structure:
+- [MBCBlinkCardRecognizerResult](https://microblink.github.io/blinkcard-ios/Classes/MBCBlinkCardRecognizerResult.html) structure:
     - Contains:
         - The card issuer
         - PAN
@@ -402,7 +411,7 @@ As of this version, BlinkCard SDK is fully compatible with other Microblink SDKs
 
 - Introducing support for new framework format - XCFramework:
     - it contains all the necessary device and simulator architecture slices
-    - no neeed to remove simulator slices before distributing your app to the App Store as described [here](https://github.com/blinkcard/blinkcard-ios#unsupported-architectures-when-submitting-app-to-app-store)
+    - no neeed to remove simulator slices before distributing your app to the App Store as described [here](https://github.com/microblink/blinkcard-ios#unsupported-architectures-when-submitting-app-to-app-store)
     - for now, only available from this repo, **not available on Cocoapods**
 - Added presets for camera - Preset1080p, and 4K; Optimal always chooses the highest quality
 - We added the option to disable Microblink logs in the console output. Use `MBLogger` class and conform to `MBLoggerDelegate` in `AppDelegate`. To disable logs, implement delegate method `- (void)log:(MBLogLevel)level format:(const char *)format arguments:(va_list)arguments`. Be careful with this option. We need full log outputs from the application for support purposes. In case of having problems with scanning certain items, undesired behavior on the specific device(s), crashes inside SDK or anything unmentioned, we will need a full log from your side. If you disable Microblink logging, you won't be able to provide us this information. Hence support might be limited

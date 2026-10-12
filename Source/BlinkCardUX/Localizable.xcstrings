@@ -80,7 +80,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "با موفقیت انجام شد! شماره کارت اسکن شد"
+            "value": "Samte shomâre-ye kart bâ movaffaghiyat eskan shod"
           }
         },
         "fi": {
@@ -272,7 +272,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uspešno! Strana sa brojem kartice je skenirana"
+            "value": "Uspešno je skenirana strana kartice sa brojem kartice"
           }
         },
         "sv": {
@@ -422,7 +422,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "با موفقیت انجام شد! کارت اسکن شد"
+            "value": "Kart bâ movaffaghiyat eskan shod"
           }
         },
         "fi": {
@@ -614,7 +614,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uspešno! Kartica je skenirana"
+            "value": "Kartica je uspešno skenirana"
           }
         },
         "sv": {
@@ -764,7 +764,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kart va telefon ra sabet negah darid"
+            "value": "Kart va telefon râ bi-harekat negah dârid"
           }
         },
         "fi": {
@@ -1106,7 +1106,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "کارت را کاملاً قابل مشاهده نگه دارید"
+            "value": "Kart ra kamelan namayan negah darid"
           }
         },
         "fi": {
@@ -1298,7 +1298,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vodite računa da cela kartica bude vidljiva"
+            "value": "Neka kartica bude potpuno vidljiva"
           }
         },
         "sv": {
@@ -1448,7 +1448,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "شماره کارت را اسکن کنید"
+            "value": "Shomareye kart ra eskan konid"
           }
         },
         "fi": {
@@ -1772,7 +1772,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Watch out for flashlight glare.\nGently move your card around to avoid it."
+            "value": "Watch out for torch glare.\nGently move your card around to avoid it."
           }
         },
         "es": {
@@ -1790,7 +1790,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "مراقب تابش خیره کننده چراغ قوه باشید.\nکارت خود را به آرامی حرکت دهید تا از آن جلوگیری شود."
+            "value": "Havasetan be tabesh-e nur-e flash bashad.\nKart ra aheste jabeja konid ta tabesh az beyn beravad."
           }
         },
         "fi": {
@@ -1982,7 +1982,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pazite na odsjaj blica.\nNežno pomerajte svoju karticu da biste ga izbegli."
+            "value": "Pazite na odsjaj blica.\nNežno pomerajte karticu da biste ga izbegli."
           }
         },
         "sv": {
@@ -2114,7 +2114,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "The card number is usually 16 digits long, though it may be between 12 and 19 digits. It will be printed or embossed in raised numbers on the card, either on the front or the back."
+            "value": "Card number is usually a 16-digit number, although it may have between 12 and 19 digits. It should be either printed or embossed in raised numbers across the card. It can be on the front or back of your card."
           }
         },
         "es": {
@@ -2132,7 +2132,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "شماره کارت معمولاً یک عدد ۱۶ رقمی است، اگرچه ممکن است بین ۱۲ تا ۱۹ رقم داشته باشد. این شماره باید یا چاپ شده باشد یا به صورت اعداد برجسته در سراسر کارت حک شده باشد. می‌تواند در جلو یا پشت کارت شما باشد."
+            "value": "Shomare kart ma'mulan 16 ragham darad, ama momken ast beyn-e 12 ta 19 ragham bashad. Bayad be surat-e chap-shode ya ba argham-e barjaste roye kart bashad. Momken ast dar ro ya posht-e kart gharar dashte bashad."
           }
         },
         "fi": {
@@ -2324,7 +2324,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Broj kartice je obično 16-cifreni broj, iako može imati između 12 i 19 cifara. Trebalo bi da bude odštampan ili utisnut podignutim brojevima preko kartice. Može biti na prednjoj ili zadnjoj strani kartice."
+            "value": "Broj kartice obično ima 16 cifara, ali može imati od 12 do 19 cifara. Može biti odštampan ili utisnut reljefnim ciframa na kartici. Može se nalaziti na prednjoj ili zadnjoj strani kartice."
           }
         },
         "sv": {
@@ -2456,7 +2456,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Make sure you’re not covering any part of the card with your fingers, including the bottom lines. Also watch out for hologram reflections that may obscure the card’s fields."
+            "value": "Make sure you aren’t covering parts of the card with a finger, including the bottom lines. Also, watch out for hologram reflections that go over the cards’ fields."
           }
         },
         "es": {
@@ -2474,7 +2474,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "مطمئن شوید که قسمت‌هایی از کارت، از جمله خطوط پایینی، را با انگشت نمی‌پوشانید. همچنین، مراقب بازتاب‌های هولوگرام باشید که از روی زمینه کارت‌ها عبور می‌کنند."
+            "value": "Hich bakhshi az kart, az jomle satrhaye payin, ra ba angosht napushanid. Moazebe baztabhaye hologram bashid ke ruye kadrhaye kart mioftand."
           }
         },
         "fi": {
@@ -2666,7 +2666,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uverite se da ne prekrivate delove kartice prstom, uključujući donje redove. Takođe, pazite na hologramske refleksije koje prelaze preko polja kartice."
+            "value": "Uverite se da prstom ne prekrivate delove kartice, uključujući donje redove. Pazite i da odsjaj holograma ne prekriva polja na kartici."
           }
         },
         "sv": {
@@ -2798,7 +2798,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Avoid direct, harsh light as it can reflect off the card and make parts of it unreadable. If you can’t read the data on the card yourself, the camera won’t be able to either."
+            "value": "Avoid direct harsh light because it reflects from the card and can make parts of the card unreadable. If you can’t read data on the card, it won’t be visible to the camera either."
           }
         },
         "es": {
@@ -2816,7 +2816,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "از نور مستقیم و شدید پرهیز کنید زیرا از کارت منعکس می‌شود و می‌تواند بخش‌هایی از کارت را غیرقابل خواندن کند. اگر نتوانید داده‌های روی کارت را بخوانید، برای دوربین نیز قابل مشاهده نخواهد بود."
+            "value": "Az nur-e mostaghim va shadid parhiz konid, zira az kart baztab mishavad va momken ast bakhshhayi az kart ra nakhana konad. Agar dadehaye kart ra nemitavanid bekhanid, dorbin ham natavanad anha ra bebinad."
           }
         },
         "fi": {
@@ -3008,7 +3008,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Izbegavajte direktnu oštru svetlost jer se odbija od kartice i može učiniti delove kartice nečitljivim. Ako ne možete da pročitate podatke na kartici, neće biti vidljivi ni kameri."
+            "value": "Izbegavajte jaku direktnu svetlost jer se odbija od kartice i može učiniti delove kartice nečitljivim. Ako ne možete da pročitate podatke na kartici, neće biti vidljivi ni kameri."
           }
         },
         "sv": {
@@ -3140,7 +3140,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep the phone and card still while scanning. Moving either may blur the image and make the card details unreadable."
+            "value": "Try to keep the phone and card still while scanning. Moving either can blur the image and make data on the card unreadable."
           }
         },
         "es": {
@@ -3158,7 +3158,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "سعی کنید هنگام اسکن، گوشی و کارت را ثابت نگه دارید. حرکت دادن هر دو می‌تواند تصویر را تار کند و اطلاعات روی کارت را غیرقابل خواندن کند."
+            "value": "Dar hengam-e eskan, telefon va kart ra bi-harekat negah darid. Harekat-e har kodam mitavanad tasvir ra tar konad va dadehaye kart ra nakhana konad."
           }
         },
         "fi": {
@@ -3350,7 +3350,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pokušajte da telefon i kartica budu mirni tokom skeniranja. Pomeranje bilo koje od njih može zamutiti sliku i učiniti podatke na dokumentu nečitljivim."
+            "value": "Pokušajte da držite telefon i karticu mirno tokom skeniranja. Pomeranje bilo kog od njih može zamutiti sliku i učiniti podatke na kartici nečitljivim."
           }
         },
         "sv": {
@@ -3482,7 +3482,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Where is the card number?"
+            "value": "Where’s the card number?"
           }
         },
         "es": {
@@ -3500,7 +3500,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "شماره کارت کجاست؟"
+            "value": "Shomare kart kojast?"
           }
         },
         "fi": {
@@ -3692,7 +3692,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gde se nalazi broj kartice?"
+            "value": "Gde je broj kartice?"
           }
         },
         "sv": {
@@ -3842,7 +3842,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "همه فیلدها را قابل مشاهده نگه دارید"
+            "value": "Hameye kadrha ra namayan negah darid"
           }
         },
         "fi": {
@@ -3884,7 +3884,7 @@
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "इस प्रकार रखें की सभी फील्ड पूरी तरह दिखाई दे"
+            "value": "सभी फ़ील्ड दिखाई देते रहें"
           }
         },
         "hr": {
@@ -3914,7 +3914,7 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fai in modo tutti i campi siano visibili"
+            "value": "Mantieni tutti i campi visibili"
           }
         },
         "ja": {
@@ -4184,7 +4184,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "مراقب نور شدید باشید"
+            "value": "Movazeb nur-e shadid bashid"
           }
         },
         "fi": {
@@ -4376,7 +4376,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pazite na oštro svetlo"
+            "value": "Pazite na jaku svetlost"
           }
         },
         "sv": {
@@ -4526,7 +4526,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "هنگام اسکن کردن بی‌حرکت بمانید"
+            "value": "Hengam-e eskan bi-harekat bemanid"
           }
         },
         "fi": {
@@ -4718,7 +4718,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ostanite mirni dok skenirate"
+            "value": "Mirujte tokom skeniranja"
           }
         },
         "sv": {
@@ -5060,7 +5060,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Držite karticu paralelno s telefonom"
+            "value": "Držite karticu paralelno sa telefonom"
           }
         },
         "sv": {
@@ -5192,7 +5192,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "The card number is usually 16 digits long. It will be printed or embossed in raised numbers on the card. Make sure the card is well lit and that all details are clearly visible."
+            "value": "Card number is usually a 16-digit number. It should be either printed or embossed in raised numbers across the card. Make sure that the card is well lit and all details are visible."
           }
         },
         "es": {
@@ -5210,7 +5210,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "شماره کارت معمولاً یک عدد ۱۶ رقمی است. این شماره باید یا چاپ شده باشد یا به صورت اعداد برجسته روی کارت حک شده باشد. مطمئن شوید که کارت به خوبی روشن است و تمام جزئیات آن قابل مشاهده است."
+            "value": "Shomare kart mamulan yek shomare 16-raghami ast. Bayad be surat-e chap-shode ya barjaste ruye kart bashad. Motma'en shavid ke kart khub roshan ast va hame-ye joziyat dida mishavand."
           }
         },
         "fi": {
@@ -5402,7 +5402,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Broj kartice je obično 16-cifreni broj. Trebalo bi da bude odštampan ili utisnut podignutim brojevima preko kartice. Uverite se da je kartica dobro osvetljena i da su svi detalji vidljivi."
+            "value": "Broj kartice obično ima 16 cifara. Može biti odštampan ili reljefno utisnut na kartici. Uverite se da je kartica dobro osvetljena i da su svi detalji vidljivi."
           }
         },
         "sv": {
@@ -5552,7 +5552,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "ابتدا شماره کارت را اسکن کنید"
+            "value": "Aval shomare kart ra eskan konid"
           }
         },
         "fi": {
@@ -5894,7 +5894,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "طرف دیگر کارت را اسکن کنید"
+            "value": "Poshte kart ra eskan konid"
           }
         },
         "fi": {
@@ -6218,7 +6218,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Make sure the card is well lit, fully visible and free of glare."
+            "value": "Make sure the card is well lit, fully visible and free from glare."
           }
         },
         "es": {
@@ -6236,7 +6236,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "Motma'en shavid kârt khub roshan, kâmel namâyân va bedûn-e tâbesh ast."
+            "value": "Motmaen shavid kart khub roshan, kamelan namayan va bedun-e tabesh ast."
           }
         },
         "fi": {
@@ -6428,7 +6428,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Proverite da li je kartica dobro osvetljena, potpuno vidljiva i bez odsjaja."
+            "value": "Uverite se da je kartica dobro osvetljena, potpuno vidljiva i bez odsjaja."
           }
         },
         "sv": {
@@ -6578,7 +6578,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "دوباره امتحان کنید"
+            "value": "Dobâre talâsh konid"
           }
         },
         "fi": {
@@ -6770,7 +6770,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pokušaj ponovo"
+            "value": "Pokušajte ponovo"
           }
         },
         "sv": {
@@ -6920,7 +6920,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nemîtavân kârt râ khând"
+            "value": "Kart khande nashod"
           }
         },
         "fi": {
@@ -7262,7 +7262,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "کارت را برگردانید"
+            "value": "Kart ra varune konid"
           }
         },
         "fi": {
@@ -7454,7 +7454,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Preokrenite karticu"
+            "value": "Okrenite karticu"
           }
         },
         "sv": {
@@ -7604,7 +7604,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "مجوز دوربین لازم است."
+            "value": "Ejaze-ye dorbin lazem ast."
           }
         },
         "fi": {
@@ -7796,7 +7796,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Potrebna je dozvola za kameru."
+            "value": "Dozvola za kameru je obavezna."
           }
         },
         "sv": {
@@ -7946,7 +7946,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "بستن"
+            "value": "Bastan"
           }
         },
         "fi": {
@@ -8288,7 +8288,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "Baraye talash-e mojadad-e etesal be internet, do bar bezanid"
+            "value": "Baraye etesal-e dobare be internet, do bar tap konid"
           }
         },
         "fi": {
@@ -8480,7 +8480,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dvaput dodirnite da biste ponovo pokušali da se povežete na internet"
+            "value": "Dvaput dodirnite da biste pokušali da se ponovo povežete sa internetom"
           }
         },
         "sv": {
@@ -8972,7 +8972,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lotfan etesal-e khod be internet ra barrasi konid va dobare talash konid"
+            "value": "Lotfan etesal-e internet-e khod ra barrasi konid va dobare talash konid"
           }
         },
         "fi": {
@@ -9314,7 +9314,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "برگشت"
+            "value": "Bazgasht"
           }
         },
         "fi": {
@@ -9656,7 +9656,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "انجام شد"
+            "value": "Anjam shod"
           }
         },
         "fi": {
@@ -9848,7 +9848,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Završeno"
+            "value": "Gotovo"
           }
         },
         "sv": {
@@ -9998,7 +9998,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "بعدی"
+            "value": "Ba'di"
           }
         },
         "fi": {
@@ -10190,7 +10190,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sledeći"
+            "value": "Dalje"
           }
         },
         "sv": {
@@ -10340,7 +10340,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "فعال کردن دوربین"
+            "value": "Dorbin ra fa'al konid"
           }
         },
         "fi": {
@@ -10532,7 +10532,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Omogući kameru"
+            "value": "Uključite kameru"
           }
         },
         "sv": {
@@ -10682,7 +10682,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "اسکن در دسترس نیست"
+            "value": "Eskan dar dastres nist"
           }
         },
         "fi": {
@@ -11024,7 +11024,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "نزدیکتر حرکت کن"
+            "value": "Nazdik-tar biyayid"
           }
         },
         "fi": {
@@ -11216,7 +11216,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Približite"
+            "value": "Približite se"
           }
         },
         "sv": {
@@ -11348,7 +11348,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Move farther"
+            "value": "Move farther away"
           }
         },
         "es": {
@@ -11366,7 +11366,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "دورتر حرکت کن"
+            "value": "Door-tar beravid"
           }
         },
         "fi": {
@@ -11558,7 +11558,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Udaljite"
+            "value": "Udaljite se"
           }
         },
         "sv": {
@@ -11708,7 +11708,7 @@
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "به کمک نیاز دارید؟"
+            "value": "Be rahnama niaz dârid?"
           }
         },
         "fi": {
@@ -11900,7 +11900,7 @@
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Potrebna vam je pomoć?"
+            "value": "Treba vam pomoć?"
           }
         },
         "sv": {
