@@ -6218,7 +6218,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Make sure the card is well lit, fully visible and free from glare."
+            "value": "Make sure the card is well lit, fully visible, and free of glare."
           }
         },
         "es": {
@@ -11348,7 +11348,7 @@
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Move farther away"
+            "value": "Move farther"
           }
         },
         "es": {
