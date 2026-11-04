@@ -193,7 +193,7 @@ public struct CardNumberRedactionSettings : Swift.Sendable {
   public var mode: BlinkCard.RedactionMode
   public var prefixDigitsVisible: Swift.UInt8
   public var suffixDigitsVisible: Swift.UInt8
-  public init(mode: BlinkCard.RedactionMode = .none, prefixDigitsVisible: Swift.UInt8 = 0, suffixDigitsVisible: Swift.UInt8 = 0)
+  public init(mode: BlinkCard.RedactionMode = .fullResult, prefixDigitsVisible: Swift.UInt8 = 4, suffixDigitsVisible: Swift.UInt8 = 4)
 }
 public enum RedactionMode : Swift.String, Swift.Codable, Swift.CaseIterable, Swift.Identifiable, Swift.Sendable {
   case none
@@ -220,7 +220,7 @@ public struct RedactionSettings : Swift.Sendable {
   public var cvvRedactionMode: BlinkCard.RedactionMode
   public var ibanRedactionMode: BlinkCard.RedactionMode
   public var cardholderNameRedactionMode: BlinkCard.RedactionMode
-  public init(cardNumberRedactionSettings: BlinkCard.CardNumberRedactionSettings = CardNumberRedactionSettings(), cvvRedactionMode: BlinkCard.RedactionMode = .none, ibanRedactionMode: BlinkCard.RedactionMode = .none, cardholderNameRedactionMode: BlinkCard.RedactionMode = .none)
+  public init(cardNumberRedactionSettings: BlinkCard.CardNumberRedactionSettings = CardNumberRedactionSettings(), cvvRedactionMode: BlinkCard.RedactionMode = .fullResult, ibanRedactionMode: BlinkCard.RedactionMode = .none, cardholderNameRedactionMode: BlinkCard.RedactionMode = .none)
 }
 public enum SensitivityLevel : Swift.Sendable, Swift.CaseIterable {
   case off

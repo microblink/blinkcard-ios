@@ -1,4 +1,6 @@
 # Release notes
+## 3001.0.2
+- Bugfixes and improvements
 
 ## 3001.0.1
 

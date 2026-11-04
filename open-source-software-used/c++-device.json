@@ -2,9 +2,9 @@ SPDXVersion: SPDX-2.2
 DataLicense: CC0-1.0
 SPDXID: SPDXRef-DOCUMENT
 DocumentName: //BlinkCard:BlinkCard
-Creator: Person: pero
+Creator: Person: runner
 Creator: Tool: https//github.com/bazelbuild/rules_license/tools:write_sbom
-Created: 2026-10-12-17:45:03Z
+Created: 2026-11-04-12:24:14Z
 
 ##### Package: //BlinkCard:BlinkCard
 SPDXID: "@@core-identity+//3rdparty/config_ex/ConfigEx"

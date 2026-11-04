@@ -39,7 +39,7 @@ This guide will help you migrate your application from BlinkCard v2.12.0 to the 
 pod 'PPBlinkCard'
 
 # Remove from Cartfile if using Carthage
-binary "https://github.com/blinkcard/blinkcard-ios/blob/master/blinkcard-ios.json"
+binary "https://github.com/microblink/blinkcard-ios/blob/master/blinkcard-ios.json"
 ```
 
 #### Add New Dependencies:
@@ -47,7 +47,7 @@ binary "https://github.com/blinkcard/blinkcard-ios/blob/master/blinkcard-ios.jso
 ```swift
 // Add to Swift Package Manager
 dependencies: [
-    .package(url: "https://github.com/blinkcard/blinkcard-ios.git", 
+    .package(url: "https://github.com/microblink/blinkcard-ios.git", 
              .upToNextMajor(from: "3000.0.0"))
 ]
 ```
